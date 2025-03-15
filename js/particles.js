@@ -28,7 +28,7 @@ function initParticles() {
         0.1,
         1000
     );
-    camera.position.set(0, 0, 1); // Center camera position
+    camera.position.set(0, 0, 1.5); // Center camera position
     camera.lookAt(0, 0, 0); // Focus on the center of the scene
     console.log("[Particles.js] Camera set up");
 

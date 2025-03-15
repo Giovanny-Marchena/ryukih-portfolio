@@ -2,6 +2,30 @@ document.addEventListener('DOMContentLoaded', () => {
     const pageClass = document.body.className || "unknown-page";
     console.log(`[Script.js] Loaded on page: ${pageClass}`);
 
+    // Hamburger menu toggle
+    const hamburger = document.querySelector('.hamburger');
+    const navLinks = document.querySelector('.nav-links');
+
+    if (hamburger && navLinks) {
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navLinks.classList.toggle('active');
+            console.log(`[Script.js] Hamburger menu toggled on ${pageClass}`);
+        });
+
+        // Close menu when a link is clicked
+        navLinks.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                navLinks.classList.remove('active');
+                console.log(`[Script.js] Menu closed after link click on ${pageClass}`);
+            });
+        });
+    } else {
+        console.error(`[Script.js] Hamburger or nav-links not found on ${pageClass}`);
+    }
+
+    // Existing loading screen logic
     const content = document.querySelector('.content');
     const loadingScreen = document.getElementById('loading-screen');
 
