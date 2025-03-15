@@ -5,7 +5,12 @@ document.addEventListener("DOMContentLoaded", () => {
         console.error(`[Particles.js] Loading screen element not found on ${pageClass}`);
         return;
     }
-    initParticles();
+
+    // Defer particle animation until page is interactive
+    window.addEventListener('load', () => {
+        console.log(`[Particles.js] Window loaded, initializing particles on ${pageClass}`);
+        initParticles();
+    });
 });
 
 function initParticles() {
@@ -13,14 +18,20 @@ function initParticles() {
     const canvas = document.createElement('canvas');
     canvas.id = 'particleCanvas';
 
-    // Dynamically set canvas size based on viewport
     const viewportWidth = window.innerWidth;
     const viewportHeight = window.innerHeight;
-    const baseSize = Math.min(viewportWidth, viewportHeight) * 0.25; // 25% of the smaller dimension
-    canvas.width = Math.max(120, Math.min(baseSize, 200)); // Clamp between 120px and 200px
+    const baseSize = Math.min(viewportWidth, viewportHeight) * 0.25;
+    canvas.width = Math.max(120, Math.min(baseSize, 200));
     canvas.height = Math.max(120, Math.min(baseSize, 200));
     loadingScreen.appendChild(canvas);
     console.log(`[Particles.js] Canvas created with size ${canvas.width}x${canvas.height} on ${pageClass}`);
+
+    // Check for WebGL support
+    const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+    if (!gl) {
+        console.error(`[Particles.js] WebGL not supported on ${pageClass}, skipping animation`);
+        return;
+    }
 
     const renderer = new THREE.WebGLRenderer({ canvas, alpha: true });
     renderer.setSize(canvas.width, canvas.height);
@@ -37,13 +48,11 @@ function initParticles() {
     camera.lookAt(0, 0, 0);
     console.log("[Particles.js] Camera set up");
 
-    // Define fixed sphere and particle properties
     const radius = 0.4;
     const particleSizeFactor = 40;
     const particleSize = radius / particleSizeFactor;
     console.log(`[Particles.js] Sphere radius set to: ${radius}, Particle size set to: ${particleSize}`);
 
-    // Dynamic particle count based on device
     const isMobile = /Mobi|Android/i.test(navigator.userAgent);
     const particleCount = isMobile ? (window.innerWidth <= 360 ? 30 : 50) : 150;
     console.log(`[Particles.js] Particle count set to: ${particleCount} based on device`);
@@ -74,8 +83,6 @@ function initParticles() {
     scene.add(particles);
     console.log("[Particles.js] Particles created and added to scene");
 
-    let animationCycleComplete = false;
-
     function animate() {
         requestAnimationFrame(animate);
 
@@ -90,22 +97,12 @@ function initParticles() {
         particles.rotation.x += 0.01;
         particles.rotation.y += 0.002;
 
-        if (!animationCycleComplete && particles.rotation.y >= Math.PI * 2) {
-            animationCycleComplete = true;
-            const loadingScreen = document.getElementById('loading-screen');
-            if (loadingScreen) {
-                loadingScreen.dispatchEvent(new Event('animationComplete'));
-                console.log("[Particles.js] Animation cycle complete, event dispatched");
-            }
-        }
-
         renderer.render(scene, camera);
     }
 
     animate();
     console.log("[Particles.js] Animation loop started");
 
-    // Update canvas size on window resize
     window.addEventListener("resize", () => {
         const newViewportWidth = window.innerWidth;
         const newViewportHeight = window.innerHeight;

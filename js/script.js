@@ -16,7 +16,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (hamburger && navLinks) {
         console.log(`[Script.js] Hamburger and nav-links found on ${pageClass}`);
 
-        // Calculate the actual height of the nav-links content
         const calculateNavHeight = () => {
             navLinks.style.maxHeight = '0px';
             navLinks.style.display = 'flex';
@@ -83,7 +82,6 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
 
-    // Dynamically adjust navbar z-index
     const adjustNavbarZIndex = () => {
         if (loadingScreen.style.display !== 'none' && loadingScreen.style.opacity !== '0') {
             navbar.style.zIndex = parseInt(getComputedStyle(loadingScreen).zIndex) + 1;
@@ -93,7 +91,19 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     adjustNavbarZIndex();
 
-    // Progress indicator logic with error handling
+    // Fade out loading screen immediately
+    setTimeout(() => {
+        console.log(`[Script.js] Forcing loading screen fade-out on ${pageClass}`);
+        loadingScreen.style.opacity = '0';
+        setTimeout(() => {
+            loadingScreen.style.display = 'none';
+            content.classList.add('loaded');
+            adjustNavbarZIndex();
+            console.log(`[Script.js] Loading screen hidden, content revealed on ${pageClass}`);
+        }, 500);
+    }, 1000);
+
+    // Progress indicator (non-blocking)
     let resourcesLoaded = 0;
     const totalResources = document.images.length + document.scripts.length;
 
@@ -120,29 +130,69 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Fade out loading screen immediately after DOM is ready, with a max wait time
-    const maxWaitTime = 5000; // Reduced to 5 seconds
-    const waitTimeout = setTimeout(() => {
-        console.log(`[Script.js] Max wait time reached, forcing loading screen fade-out`);
-        loadingScreen.style.opacity = '0';
-        setTimeout(() => {
-            loadingScreen.style.display = 'none';
-            content.classList.add('loaded');
-            adjustNavbarZIndex();
-            console.log(`[Script.js] Loading screen hidden, content revealed on ${pageClass}`);
-        }, 500);
-    }, maxWaitTime);
+    // Projects Logic (Deferred until page is interactive)
+    const projects = [
+        { id: 1, title: "RyugiLab", description: "A home lab setup for networking and server experiments.", link: "project-ryugilab.html" },
+        { id: 2, title: "Network Monitor Tool", description: "A Python tool to monitor network traffic.", link: "project-network-monitor.html" },
+        { id: 3, title: "Portfolio Website", description: "This responsive portfolio with Three.js animation.", link: "project-portfolio.html" },
+        { id: 4, title: "Server Automation Script", description: "A script to automate server deployments.", link: "project-server-script.html" },
+        { id: 5, title: "Cloud Infrastructure Demo", description: "A demo of cloud-based server setup.", link: "project-cloud-demo.html" },
+        { id: 6, title: "DNS Server Prototype", description: "A prototype for a custom DNS server.", link: "project-dns-prototype.html" },
+        { id: 7, title: "IoT Sensor Network", description: "A network of IoT sensors for data collection.", link: "project-iot-sensor.html" }
+    ];
 
-    // If particle animation completes earlier, fade out sooner
-    loadingScreen.addEventListener('animationComplete', () => {
-        clearTimeout(waitTimeout);
-        loadingScreen.style.opacity = '0';
-        console.log(`[Script.js] Fading out loading screen on ${pageClass}`);
-        setTimeout(() => {
-            loadingScreen.style.display = 'none';
-            content.classList.add('loaded');
-            adjustNavbarZIndex();
-            console.log(`[Script.js] Loading screen hidden, content revealed on ${pageClass}`);
-        }, 500);
+    const projectGrid = document.getElementById('project-grid');
+    const showMoreBtn = document.getElementById('show-more');
+    let visibleProjects = 6;
+
+    function renderProjects() {
+        if (!projectGrid) return;
+        projectGrid.innerHTML = '';
+        const projectsToShow = projects.slice(0, visibleProjects);
+
+        projectsToShow.forEach(project => {
+            const thumbnail = document.createElement('div');
+            thumbnail.className = 'project-thumbnail';
+            thumbnail.innerHTML = `
+                <h3>${project.title}</h3>
+                <p>${project.description}</p>
+            `;
+            thumbnail.addEventListener('click', () => {
+                window.location.href = project.link;
+                console.log(`[Script.js] Navigating to ${project.link}`);
+            });
+            projectGrid.appendChild(thumbnail);
+        });
+
+        if (visibleProjects < projects.length) {
+            showMoreBtn.style.display = 'block';
+        } else {
+            showMoreBtn.style.display = 'none';
+        }
+    }
+
+    if (showMoreBtn) {
+        showMoreBtn.addEventListener('click', () => {
+            visibleProjects += 6;
+            if (visibleProjects > projects.length) visibleProjects = projects.length;
+            renderProjects();
+        });
+    }
+
+    window.addEventListener('load', () => {
+        console.log(`[Script.js] Window loaded, rendering projects on ${pageClass}`);
+        renderProjects();
     });
+
+    // Work With Me Button Functionality
+    const workWithMeBtn = document.querySelector('.work-with-me-btn');
+    if (workWithMeBtn && pageClass === 'page-contact') {
+        console.log(`[Script.js] Work With Me button found on ${pageClass}`);
+        workWithMeBtn.addEventListener('click', () => {
+            window.location.href = 'mailto:john@ryukih.com';
+            console.log(`[Script.js] Opened email client for john@ryukih.com on ${pageClass}`);
+        });
+    } else if (workWithMeBtn) {
+        console.log(`[Script.js] Work With Me button found but not on contact page, skipping functionality on ${pageClass}`);
+    }
 });

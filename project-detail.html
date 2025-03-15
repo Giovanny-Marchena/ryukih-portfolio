@@ -4,15 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="description"
-        content="Explore the tech projects of John Doe, including RyugiLab and more, from a computer science student.">
-    <meta property="og:title" content="Projects - RyuKih - John Doe">
-    <meta property="og:description"
-        content="Check out the innovative projects by John Doe, a computer science student and RyugiLab creator.">
+    <meta name="description" content="Details of the RyugiLab project by John Doe.">
+    <meta property="og:title" content="RyugiLab - RyuKih - John Doe">
+    <meta property="og:description" content="Explore the RyugiLab home lab setup by John Doe.">
     <meta property="og:image" content="https://ryukih.com/assets/logo.png">
-    <meta property="og:url" content="https://ryukih.com/projects">
+    <meta property="og:url" content="https://ryukih.com/project-ryugilab">
     <meta property="og:type" content="website">
-    <title>Projects - RyuKih</title>
+    <title>RyugiLab - RyuKih</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" as="style"
         onload="this.rel='stylesheet'">
@@ -20,7 +18,7 @@
         rel="stylesheet">
 </head>
 
-<body class="page-projects">
+<body class="page-project">
     <header>
         <!-- Loading Screen -->
         <div id="loading-screen">
@@ -41,23 +39,21 @@
             <ul class="nav-links">
                 <li><a href="index.html">HOME</a></li>
                 <li><a href="about.html">ABOUT</a></li>
-                <li><a href="projects.html" class="active">PROJECTS</a></li>
+                <li><a href="projects.html">PROJECTS</a></li>
                 <li><a href="contact.html">CONTACT</a></li>
             </ul>
         </nav>
     </header>
 
-    <main class="content" id="projects">
+    <main class="content" id="project-detail">
         <noscript>
-            <h1>Projects</h1>
-            <p>Here’s what I’m building:</p>
-            <ul>
-                <li>RyugiLab - A home lab setup.</li>
-            </ul>
+            <h1>RyugiLab</h1>
+            <p>A home lab setup project.</p>
         </noscript>
-        <h1>Projects</h1>
-        <div id="project-grid" class="project-grid"></div>
-        <button id="show-more" class="show-more-btn" style="display: none;">Show More</button>
+        <h1>RyugiLab</h1>
+        <p class="bio">This project is a home lab setup for experimenting with networking and server infrastructure.
+            Currently, I’m working on integrating a custom DNS server and load balancer. Check out the progress on <a
+                href="https://github.com/johndoe/ryugilab">GitHub</a>.</p>
     </main>
 
     <!-- Include Three.js locally -->
@@ -72,7 +68,7 @@
         "@context": "https://schema.org",
         "@type": "Person",
         "name": "John Doe",
-        "url": "https://ryukih.com/projects",
+        "url": "https://ryukih.com/project-ryugilab",
         "sameAs": [
             "https://github.com/johndoe",
             "https://linkedin.com/in/johndoe"
