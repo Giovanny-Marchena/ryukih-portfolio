@@ -40,6 +40,7 @@ function initParticles() {
 
     // Create particles on the surface of a 3D sphere
     const particleCount = 150;
+    // const particleCount = isMobile ? (window.innerWidth <= 360 ? 30 : 50) : 150;
     const particles = new THREE.Group();
     particles.position.set(0, 0, 0); // Ensure the particle group is centered in the scene
     const particlePositions = [];

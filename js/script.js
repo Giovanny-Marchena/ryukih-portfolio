@@ -25,6 +25,14 @@ document.addEventListener('DOMContentLoaded', () => {
         console.error(`[Script.js] Hamburger or nav-links not found on ${pageClass}`);
     }
 
+    // Highlight active page
+    const currentPath = window.location.pathname;
+    document.querySelectorAll('.nav-links a').forEach(link => {
+        if (link.getAttribute('href') === currentPath || (link.getAttribute('href') === 'index.html' && currentPath === '/')) {
+            link.classList.add('active');
+        }
+    });
+
     // Existing loading screen logic
     const content = document.querySelector('.content');
     const loadingScreen = document.getElementById('loading-screen');
@@ -38,7 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
 
-    const minLoadingTime = 1500;
+    const minLoadingTime = 1000; // Reduced from 1500 for faster load
     const startTime = Date.now();
 
     window.addEventListener('load', () => {

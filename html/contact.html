@@ -4,37 +4,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="description"
+        content="Contact [Your Name], a computer science student and RyugiLab creator, for collaboration or inquiries.">
+    <meta property="og:title" content="Contact - RyuKih - [Your Name]">
+    <meta property="og:description"
+        content="Get in touch with [Your Name], a computer science student passionate about tech projects.">
+    <meta property="og:image" content="https://ryukih.com/assets/logo.png">
+    <meta property="og:url" content="https://ryukih.com/html/contact.html">
+    <meta property="og:type" content="website">
     <title>Contact - RyuKih</title>
     <link rel="stylesheet" href="../css/style.css">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" as="style"
+        onload="this.rel='stylesheet'">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
 </head>
 
 <body class="page-contact">
-    <!-- Loading Screen -->
-    <div id="loading-screen">
-        <canvas id="particleCanvas"></canvas>
-    </div>
+    <header>
+        <!-- Loading Screen -->
+        <div id="loading-screen">
+            <canvas id="particleCanvas"></canvas>
+        </div>
 
-    <!-- Navigation Bar -->
-    <nav class="navbar">
-        <a href="../index.html" class="logo-link">
-            <img src="../assets/logo.png" alt="RyuKih Logo" class="logo">
-        </a>
-        <button class="hamburger" aria-label="Toggle navigation">
-            <span></span>
-            <span></span>
-            <span></span>
-        </button>
-        <ul class="nav-links">
-            <li><a href="../index.html">HOME</a></li>
-            <li><a href="about.html">ABOUT</a></li>
-            <li><a href="projects.html">PROJECTS</a></li>
-            <li><a href="contact.html">CONTACT</a></li>
-        </ul>
-    </nav>
+        <!-- Navigation Bar -->
+        <nav class="navbar">
+            <a href="../index.html" class="logo-link">
+                <img src="../assets/logo.webp" alt="RyuKih Logo" class="logo" loading="lazy">
+            </a>
+            <button class="hamburger" aria-label="Toggle navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-links">
+                <li><a href="../index.html">HOME</a></li>
+                <li><a href="about.html">ABOUT</a></li>
+                <li><a href="projects.html">PROJECTS</a></li>
+                <li><a href="contact.html" class="active">CONTACT</a></li>
+            </ul>
+        </nav>
+    </header>
 
-    <!-- Contact Content -->
-    <div class="content" id="contact">
+    <main class="content" id="contact">
+        <noscript>
+            <h1>Contact</h1>
+            <p>Get in touch:</p>
+            <ul class="links">
+                <li><a href="mailto:me@ryukih.com">me@ryukih.com</a></li>
+            </ul>
+        </noscript>
         <h1>Contact</h1>
         <p class="bio">Get in touch:</p>
         <ul class="links">
@@ -42,17 +60,31 @@
             <li><a href="https://github.com/yourusername">GitHub</a></li>
             <li><a href="https://linkedin.com/in/yourusername">LinkedIn</a></li>
         </ul>
-    </div>
+    </main>
 
     <!-- Include Three.js from CDN -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
     <!-- Your custom scripts -->
-    <script src="../js/particles.js"></script>
-    <script src="../js/script.js"></script>
+    <script defer src="../js/particles.js"></script>
+    <script defer src="../js/script.js"></script> <!-- Fixed path -->
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "[Your Name]",
+        "url": "https://ryukih.com/html/contact.html",
+        "sameAs": [
+            "https://github.com/yourusername",
+            "https://linkedin.com/in/yourusername"
+        ]
+    }
+    </script>
 
     <noscript>
-        <p style="text-align: center; color: red;">⚠️ JavaScript is required for this website to function properly.</p>
+        <p style="text-align: center; color: red;">⚠️ JavaScript is required for full functionality. See basic content
+            above.</p>
     </noscript>
 </body>
 

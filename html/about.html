@@ -4,51 +4,80 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="description"
+        content="Learn about [Your Name], a computer science student behind RyugiLab, and their tech journey.">
+    <meta property="og:title" content="About - RyuKih - [Your Name]">
+    <meta property="og:description"
+        content="Discover the background of [Your Name], a passionate computer science student and RyugiLab creator.">
+    <meta property="og:image" content="https://ryukih.com/assets/logo.png">
+    <meta property="og:url" content="https://ryukih.com/html/about.html">
+    <meta property="og:type" content="website">
     <title>About - RyuKih</title>
     <link rel="stylesheet" href="../css/style.css">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" as="style"
+        onload="this.rel='stylesheet'">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
 </head>
 
 <body class="page-about">
-    <!-- Loading Screen -->
-    <div id="loading-screen">
-        <canvas id="particleCanvas"></canvas>
-    </div>
+    <header>
+        <!-- Loading Screen -->
+        <div id="loading-screen">
+            <canvas id="particleCanvas"></canvas>
+        </div>
 
-    <!-- Navigation Bar -->
-    <nav class="navbar">
-        <a href="../index.html" class="logo-link">
-            <img src="../assets/logo.png" alt="RyuKih Logo" class="logo">
-        </a>
-        <button class="hamburger" aria-label="Toggle navigation">
-            <span></span>
-            <span></span>
-            <span></span>
-        </button>
-        <ul class="nav-links">
-            <li><a href="../index.html">HOME</a></li>
-            <li><a href="about.html">ABOUT</a></li>
-            <li><a href="projects.html">PROJECTS</a></li>
-            <li><a href="contact.html">CONTACT</a></li>
-        </ul>
-    </nav>
+        <!-- Navigation Bar -->
+        <nav class="navbar">
+            <a href="../index.html" class="logo-link">
+                <img src="../assets/logo.webp" alt="RyuKih Logo" class="logo" loading="lazy">
+            </a>
+            <button class="hamburger" aria-label="Toggle navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-links">
+                <li><a href="../index.html">HOME</a></li>
+                <li><a href="about.html" class="active">ABOUT</a></li>
+                <li><a href="projects.html">PROJECTS</a></li>
+                <li><a href="contact.html">CONTACT</a></li>
+            </ul>
+        </nav>
+    </header>
 
-    <!-- About Content -->
-    <div class="content" id="about">
+    <main class="content" id="about">
+        <noscript>
+            <h1>About Me</h1>
+            <p>I’m [Your Name], a computer science student passionate about technology.</p>
+        </noscript>
         <h1>About Me</h1>
         <p class="bio">I’m [Your Name], a final-year computer science student passionate about technology. My home lab,
             RyugiLab, is where I experiment with networking, servers, and more. This portfolio showcases my journey.</p>
-    </div>
+    </main>
 
     <!-- Include Three.js from CDN -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
     <!-- Your custom scripts -->
-    <script src="../js/particles.js"></script>
-    <script src="../js/script.js"></script>
+    <script defer src="../js/particles.js"></script>
+    <script defer src="../js/script.js"></script>
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "[Your Name]",
+        "url": "https://ryukih.com/html/about.html",
+        "sameAs": [
+            "https://github.com/yourusername",
+            "https://linkedin.com/in/yourusername"
+        ]
+    }
+    </script>
 
     <noscript>
-        <p style="text-align: center; color: red;">⚠️ JavaScript is required for this website to function properly.</p>
+        <p style="text-align: center; color: red;">⚠️ JavaScript is required for full functionality. See basic content
+            above.</p>
     </noscript>
 </body>
 

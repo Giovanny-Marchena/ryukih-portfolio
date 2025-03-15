@@ -1,3 +1,7 @@
+html {
+    scroll-behavior: smooth;
+}
+
 body {
     margin: 0;
     padding: 0;
@@ -5,8 +9,20 @@ body {
     color: #ffffff;
     font-family: 'Inter', sans-serif;
     min-height: 100vh;
+    display: -webkit-box;
+    /* Safari */
+    display: -ms-flexbox;
+    /* IE10 */
     display: flex;
+    -webkit-box-pack: center;
+    /* Safari */
+    -ms-flex-pack: center;
+    /* IE10 */
     justify-content: center;
+    -webkit-box-align: center;
+    /* Safari */
+    -ms-flex-align: center;
+    /* IE10 */
     align-items: center;
 }
 
@@ -18,8 +34,20 @@ body {
     top: 0;
     width: 100%;
     z-index: 1000;
+    display: -webkit-box;
+    /* Safari */
+    display: -ms-flexbox;
+    /* IE10 */
     display: flex;
-    justify-content: space-between; /* Space between logo and hamburger/menu */
+    -webkit-box-pack: justify;
+    /* Safari */
+    -ms-flex-pack: justify;
+    /* IE10 */
+    justify-content: space-between;
+    -webkit-box-align: center;
+    /* Safari */
+    -ms-flex-align: center;
+    /* IE10 */
     align-items: center;
     box-sizing: border-box;
 }
@@ -36,7 +64,7 @@ body {
 
 /* Hamburger Button */
 .hamburger {
-    display: none; /* Hidden by default */
+    display: none;
     background: none;
     border: none;
     cursor: pointer;
@@ -50,11 +78,15 @@ body {
     height: 3px;
     background: #ffffff;
     margin: 5px 0;
+    -webkit-transition: all 0.3s ease;
+    /* Safari */
     transition: all 0.3s ease;
 }
 
 .hamburger.active span:nth-child(1) {
-    transform: rotate(45deg) translate(5px, 5px);
+    -webkit-transform: rotate(45deg) translate(5px, 5px);
+    /* Safari */
+    transform: rotate(45deg) transform(5px, 5px);
 }
 
 .hamburger.active span:nth-child(2) {
@@ -62,6 +94,8 @@ body {
 }
 
 .hamburger.active span:nth-child(3) {
+    -webkit-transform: rotate(-45deg) translate(7px, -7px);
+    /* Safari */
     transform: rotate(-45deg) translate(7px, -7px);
 }
 
@@ -69,9 +103,19 @@ body {
     list-style: none;
     padding: 0;
     margin: 0;
+    display: -webkit-box;
+    /* Safari */
+    display: -ms-flexbox;
+    /* IE10 */
     display: flex;
+    -webkit-box-pack: center;
+    /* Safari */
+    -ms-flex-pack: center;
+    /* IE10 */
     justify-content: center;
     flex-wrap: wrap;
+    -webkit-transition: all 0.3s ease;
+    /* Safari */
     transition: all 0.3s ease;
 }
 
@@ -86,11 +130,21 @@ body {
     font-weight: 400;
     text-transform: uppercase;
     letter-spacing: 1px;
+    -webkit-transition: color 0.3s ease;
+    /* Safari */
     transition: color 0.3s ease;
 }
 
-.nav-links a:hover {
+.nav-links a:hover,
+.nav-links a:focus {
     color: #FACA16;
+    outline: 2px solid #FACA16;
+    outline-offset: 2px;
+}
+
+.nav-links a.active {
+    color: #FACA16;
+    border-bottom: 2px solid #FACA16;
 }
 
 /* Main Content */
@@ -98,6 +152,8 @@ body {
     text-align: center;
     padding: clamp(2rem, 5vw, 4rem);
     opacity: 0;
+    -webkit-transition: opacity 1s ease-in;
+    /* Safari */
     transition: opacity 1s ease-in;
     width: 100%;
     box-sizing: border-box;
@@ -131,8 +187,16 @@ h1 {
 .links {
     list-style: none;
     padding: 0;
+    display: -webkit-box;
+    /* Safari */
+    display: -ms-flexbox;
+    /* IE10 */
     display: flex;
     flex-wrap: wrap;
+    -webkit-box-pack: center;
+    /* Safari */
+    -ms-flex-pack: center;
+    /* IE10 */
     justify-content: center;
 }
 
@@ -144,11 +208,16 @@ h1 {
     color: #ffffff;
     text-decoration: none;
     font-size: clamp(0.6rem, 1vw, 1.2rem);
+    -webkit-transition: color 0.3s ease;
+    /* Safari */
     transition: color 0.3s ease;
 }
 
-.links a:hover {
+.links a:hover,
+.links a:focus {
     color: #FACA16;
+    outline: 2px solid #FACA16;
+    outline-offset: 2px;
 }
 
 /* Loading Screen */
@@ -159,9 +228,23 @@ h1 {
     width: 100vw;
     height: 100vh;
     background: #1a1a1a;
+    display: -webkit-box;
+    /* Safari */
+    display: -ms-flexbox;
+    /* IE10 */
     display: flex;
+    -webkit-box-align: center;
+    /* Safari */
+    -ms-flex-align: center;
+    /* IE10 */
     align-items: center;
+    -webkit-box-pack: center;
+    /* Safari */
+    -ms-flex-pack: center;
+    /* IE10 */
     justify-content: center;
+    -webkit-transition: opacity 0.5s ease-out;
+    /* Safari */
     transition: opacity 0.5s ease-out;
     z-index: 2000;
 }
@@ -171,30 +254,54 @@ h1 {
     height: clamp(120px, 25vmin, 200px);
     display: block;
     margin: 0 auto;
+    position: relative;
+    left: 50%;
+    -webkit-transform: translateX(-50%);
+    /* Safari */
+    -ms-transform: translateX(-50%);
+    /* IE9 */
+    transform: translateX(-50%);
 }
 
 /* Media Queries for Phones */
 @media (max-width: 600px) {
     .hamburger {
-        display: block; /* Show hamburger on small screens */
+        display: block;
         margin-right: clamp(0.5rem, 2vw, 1rem);
     }
 
     .nav-links {
-        display: none; /* Hide by default on small screens */
+        display: none;
         position: absolute;
         top: 100%;
         left: 0;
         width: 100%;
         background: #1a1a1a;
+        -webkit-box-orient: vertical;
+        /* Safari */
+        -webkit-box-direction: normal;
+        /* Safari */
+        -ms-flex-direction: column;
+        /* IE10 */
         flex-direction: column;
+        -webkit-box-align: center;
+        /* Safari */
+        -ms-flex-align: center;
+        /* IE10 */
         align-items: center;
         padding: 1rem 0;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+        -webkit-transition: all 0.3s ease;
+        /* Safari */
+        transition: all 0.3s ease;
     }
 
     .nav-links.active {
-        display: flex; /* Show when active */
+        display: -webkit-box;
+        /* Safari */
+        display: -ms-flexbox;
+        /* IE10 */
+        display: flex;
     }
 
     .nav-links li {
@@ -202,11 +309,11 @@ h1 {
     }
 
     .nav-links a {
-        font-size: clamp(0.8rem, 1.5vw, 1rem); /* Slightly larger for readability */
+        font-size: clamp(0.8rem, 1.5vw, 1rem);
     }
 
     .content {
-        padding: 4rem 0.5rem; /* Extra top padding to account for navbar */
+        padding: 4rem 0.5rem;
     }
 
     h1 {
