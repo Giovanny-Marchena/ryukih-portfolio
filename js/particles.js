@@ -12,7 +12,7 @@ function initParticles() {
     const loadingScreen = document.getElementById('loading-screen');
     const canvas = document.createElement('canvas');
     canvas.id = 'particleCanvas';
-    canvas.width = 200;
+    canvas.width = 200; // Fixed size for stability
     canvas.height = 200;
     loadingScreen.appendChild(canvas);
     console.log("[Particles.js] Canvas created and appended to loading screen");
@@ -28,10 +28,8 @@ function initParticles() {
         0.1,
         1000
     );
-    camera.position.z = 1; // Closer zoom to focus on the small sphere
-    camera.position.x = 0; // Center X
-    camera.position.y = 0; // Center Y
-    camera.lookAt(0, 0, 0); // Ensure camera focuses on the center of the sphere
+    camera.position.set(0, 0, 1); // Center camera position
+    camera.lookAt(0, 0, 0); // Focus on the center of the scene
     console.log("[Particles.js] Camera set up");
 
     // Define fixed sphere and particle properties
@@ -43,6 +41,7 @@ function initParticles() {
     // Create particles on the surface of a 3D sphere
     const particleCount = 150;
     const particles = new THREE.Group();
+    particles.position.set(0, 0, 0); // Ensure the particle group is centered in the scene
     const particlePositions = [];
 
     for (let i = 0; i < particleCount; i++) {
