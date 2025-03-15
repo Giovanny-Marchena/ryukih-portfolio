@@ -5,18 +5,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="description"
-        content="Contact [Your Name], a computer science student and RyugiLab creator, for collaboration or inquiries.">
-    <meta property="og:title" content="Contact - RyuKih - [Your Name]">
+        content="Contact John Doe, a computer science student and RyugiLab creator, for collaboration or inquiries.">
+    <meta property="og:title" content="Contact - RyuKih - John Doe">
     <meta property="og:description"
-        content="Get in touch with [Your Name], a computer science student passionate about tech projects.">
+        content="Get in touch with John Doe, a computer science student passionate about tech projects.">
     <meta property="og:image" content="https://ryukih.com/assets/logo.png">
-    <meta property="og:url" content="https://ryukih.com/html/contact.html">
+    <meta property="og:url" content="https://ryukih.com/contact">
     <meta property="og:type" content="website">
     <title>Contact - RyuKih</title>
-    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="css/style.css">
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" as="style"
         onload="this.rel='stylesheet'">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap&font-display=swap"
+        rel="stylesheet">
 </head>
 
 <body class="page-contact">
@@ -24,12 +25,13 @@
         <!-- Loading Screen -->
         <div id="loading-screen">
             <canvas id="particleCanvas"></canvas>
+            <div id="loading-text">Loading...</div>
         </div>
 
         <!-- Navigation Bar -->
         <nav class="navbar">
-            <a href="../index.html" class="logo-link">
-                <img src="../assets/logo.webp" alt="RyuKih Logo" class="logo" loading="lazy">
+            <a href="index.html" class="logo-link">
+                <img src="assets/logo.webp" alt="RyuKih Logo" class="logo" loading="lazy">
             </a>
             <button class="hamburger" aria-label="Toggle navigation">
                 <span></span>
@@ -37,7 +39,7 @@
                 <span></span>
             </button>
             <ul class="nav-links">
-                <li><a href="../index.html">HOME</a></li>
+                <li><a href="index.html">HOME</a></li>
                 <li><a href="about.html">ABOUT</a></li>
                 <li><a href="projects.html">PROJECTS</a></li>
                 <li><a href="contact.html" class="active">CONTACT</a></li>
@@ -50,34 +52,45 @@
             <h1>Contact</h1>
             <p>Get in touch:</p>
             <ul class="links">
-                <li><a href="mailto:me@ryukih.com">me@ryukih.com</a></li>
+                <li><a href="mailto:john@ryukih.com">john@ryukih.com</a></li>
             </ul>
         </noscript>
         <h1>Contact</h1>
         <p class="bio">Get in touch:</p>
         <ul class="links">
-            <li><a href="mailto:me@ryukih.com">me@ryukih.com</a></li>
-            <li><a href="https://github.com/yourusername">GitHub</a></li>
-            <li><a href="https://linkedin.com/in/yourusername">LinkedIn</a></li>
+            <li><a href="mailto:john@ryukih.com">john@ryukih.com</a></li>
+            <li><a href="https://github.com/johndoe">GitHub</a></li>
+            <li><a href="https://linkedin.com/in/johndoe">LinkedIn</a></li>
         </ul>
+        <p class="bio">Or send me a message directly (form coming soon):</p>
+        <!-- Placeholder for future contact form -->
+        <!-- <form action="/submit" method="POST">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+            <label for="message">Message:</label>
+            <textarea id="message" name="message" required></textarea>
+            <button type="submit">Send</button>
+        </form> -->
     </main>
 
     <!-- Include Three.js from CDN -->
     <script defer src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
     <!-- Your custom scripts -->
-    <script defer src="../js/particles.js"></script>
-    <script defer src="../js/script.js"></script> <!-- Fixed path -->
+    <script defer src="js/particles.js"></script>
+    <script defer src="js/script.js"></script>
 
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
         "@type": "Person",
-        "name": "[Your Name]",
-        "url": "https://ryukih.com/html/contact.html",
+        "name": "John Doe",
+        "url": "https://ryukih.com/contact",
         "sameAs": [
-            "https://github.com/yourusername",
-            "https://linkedin.com/in/yourusername"
+            "https://github.com/johndoe",
+            "https://linkedin.com/in/johndoe"
         ]
     }
     </script>

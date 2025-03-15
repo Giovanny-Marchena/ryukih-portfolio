@@ -5,18 +5,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="description"
-        content="Explore the tech projects of [Your Name], including RyugiLab and more, from a computer science student.">
-    <meta property="og:title" content="Projects - RyuKih - [Your Name]">
+        content="Explore the tech projects of John Doe, including RyugiLab and more, from a computer science student.">
+    <meta property="og:title" content="Projects - RyuKih - John Doe">
     <meta property="og:description"
-        content="Check out the innovative projects by [Your Name], a computer science student and RyugiLab creator.">
+        content="Check out the innovative projects by John Doe, a computer science student and RyugiLab creator.">
     <meta property="og:image" content="https://ryukih.com/assets/logo.png">
-    <meta property="og:url" content="https://ryukih.com/html/projects.html">
+    <meta property="og:url" content="https://ryukih.com/projects">
     <meta property="og:type" content="website">
     <title>Projects - RyuKih</title>
-    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="css/style.css">
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" as="style"
         onload="this.rel='stylesheet'">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap&font-display=swap"
+        rel="stylesheet">
 </head>
 
 <body class="page-projects">
@@ -24,12 +25,13 @@
         <!-- Loading Screen -->
         <div id="loading-screen">
             <canvas id="particleCanvas"></canvas>
+            <div id="loading-text">Loading...</div>
         </div>
 
         <!-- Navigation Bar -->
         <nav class="navbar">
-            <a href="../index.html" class="logo-link">
-                <img src="../assets/logo.webp" alt="RyuKih Logo" class="logo" loading="lazy">
+            <a href="index.html" class="logo-link">
+                <img src="assets/logo.webp" alt="RyuKih Logo" class="logo" loading="lazy">
             </a>
             <button class="hamburger" aria-label="Toggle navigation">
                 <span></span>
@@ -37,7 +39,7 @@
                 <span></span>
             </button>
             <ul class="nav-links">
-                <li><a href="../index.html">HOME</a></li>
+                <li><a href="index.html">HOME</a></li>
                 <li><a href="about.html">ABOUT</a></li>
                 <li><a href="projects.html" class="active">PROJECTS</a></li>
                 <li><a href="contact.html">CONTACT</a></li>
@@ -55,9 +57,15 @@
         </noscript>
         <h1>Projects</h1>
         <p class="bio">Here’s what I’m building:</p>
-        <ul>
-            <li>RyugiLab - A home lab setup (in progress).</li>
-            <li>[Your Project] - [Description].</li>
+        <ul class="links">
+            <li>RyugiLab - A home lab setup for experimenting with networking and server infrastructure. Currently
+                working on integrating a custom DNS server and load balancer. <a
+                    href="https://github.com/johndoe/ryugilab">GitHub Repo</a></li>
+            <li>Network Monitor Tool - A Python-based tool to monitor network traffic and detect anomalies, built as
+                part of a university project. <a href="https://github.com/johndoe/network-monitor">GitHub Repo</a></li>
+            <li>Portfolio Website - This very site! A responsive portfolio showcasing my skills, built with HTML, CSS,
+                JavaScript, and Three.js for the particle animation. <a
+                    href="https://github.com/johndoe/portfolio">GitHub Repo</a></li>
         </ul>
     </main>
 
@@ -65,18 +73,18 @@
     <script defer src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
     <!-- Your custom scripts -->
-    <script defer src="../js/particles.js"></script>
-    <script defer src="../js/script.js"></script>
+    <script defer src="js/particles.js"></script>
+    <script defer src="js/script.js"></script>
 
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
         "@type": "Person",
-        "name": "[Your Name]",
-        "url": "https://ryukih.com/html/projects.html",
+        "name": "John Doe",
+        "url": "https://ryukih.com/projects",
         "sameAs": [
-            "https://github.com/yourusername",
-            "https://linkedin.com/in/yourusername"
+            "https://github.com/johndoe",
+            "https://linkedin.com/in/johndoe"
         ]
     }
     </script>

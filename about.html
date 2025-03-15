@@ -5,18 +5,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="description"
-        content="Learn about [Your Name], a computer science student behind RyugiLab, and their tech journey.">
-    <meta property="og:title" content="About - RyuKih - [Your Name]">
+        content="Learn about John Doe, a computer science student behind RyugiLab, and their tech journey.">
+    <meta property="og:title" content="About - RyuKih - John Doe">
     <meta property="og:description"
-        content="Discover the background of [Your Name], a passionate computer science student and RyugiLab creator.">
+        content="Discover the background of John Doe, a passionate computer science student and RyugiLab creator.">
     <meta property="og:image" content="https://ryukih.com/assets/logo.png">
-    <meta property="og:url" content="https://ryukih.com/html/about.html">
+    <meta property="og:url" content="https://ryukih.com/about">
     <meta property="og:type" content="website">
     <title>About - RyuKih</title>
-    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="css/style.css">
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" as="style"
         onload="this.rel='stylesheet'">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap&font-display=swap"
+        rel="stylesheet">
 </head>
 
 <body class="page-about">
@@ -24,12 +25,13 @@
         <!-- Loading Screen -->
         <div id="loading-screen">
             <canvas id="particleCanvas"></canvas>
+            <div id="loading-text">Loading...</div>
         </div>
 
         <!-- Navigation Bar -->
         <nav class="navbar">
-            <a href="../index.html" class="logo-link">
-                <img src="../assets/logo.webp" alt="RyuKih Logo" class="logo" loading="lazy">
+            <a href="index.html" class="logo-link">
+                <img src="assets/logo.webp" alt="RyuKih Logo" class="logo" loading="lazy">
             </a>
             <button class="hamburger" aria-label="Toggle navigation">
                 <span></span>
@@ -37,7 +39,7 @@
                 <span></span>
             </button>
             <ul class="nav-links">
-                <li><a href="../index.html">HOME</a></li>
+                <li><a href="index.html">HOME</a></li>
                 <li><a href="about.html" class="active">ABOUT</a></li>
                 <li><a href="projects.html">PROJECTS</a></li>
                 <li><a href="contact.html">CONTACT</a></li>
@@ -48,29 +50,32 @@
     <main class="content" id="about">
         <noscript>
             <h1>About Me</h1>
-            <p>I’m [Your Name], a computer science student passionate about technology.</p>
+            <p>I’m John Doe, a computer science student passionate about technology.</p>
         </noscript>
         <h1>About Me</h1>
-        <p class="bio">I’m [Your Name], a final-year computer science student passionate about technology. My home lab,
-            RyugiLab, is where I experiment with networking, servers, and more. This portfolio showcases my journey.</p>
+        <p class="bio">I’m John Doe, a final-year computer science student passionate about technology. My home lab,
+            RyugiLab, is where I experiment with networking, servers, and innovative tech projects. I’ve been fascinated
+            by computers since I was a kid, starting with building my first PC at age 12. Now, I focus on creating
+            scalable server setups, exploring cloud infrastructure, and contributing to open-source projects. This
+            portfolio showcases my journey and the skills I’ve developed along the way.</p>
     </main>
 
     <!-- Include Three.js from CDN -->
     <script defer src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
     <!-- Your custom scripts -->
-    <script defer src="../js/particles.js"></script>
-    <script defer src="../js/script.js"></script>
+    <script defer src="js/particles.js"></script>
+    <script defer src="js/script.js"></script>
 
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
         "@type": "Person",
-        "name": "[Your Name]",
-        "url": "https://ryukih.com/html/about.html",
+        "name": "John Doe",
+        "url": "https://ryukih.com/about",
         "sameAs": [
-            "https://github.com/yourusername",
-            "https://linkedin.com/in/yourusername"
+            "https://github.com/johndoe",
+            "https://linkedin.com/in/johndoe"
         ]
     }
     </script>

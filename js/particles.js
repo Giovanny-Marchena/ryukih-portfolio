@@ -12,13 +12,18 @@ function initParticles() {
     const loadingScreen = document.getElementById('loading-screen');
     const canvas = document.createElement('canvas');
     canvas.id = 'particleCanvas';
-    canvas.width = 200; // Fixed size for stability
-    canvas.height = 200;
+
+    // Dynamically set canvas size based on viewport
+    const viewportWidth = window.innerWidth;
+    const viewportHeight = window.innerHeight;
+    const baseSize = Math.min(viewportWidth, viewportHeight) * 0.25; // 25% of the smaller dimension
+    canvas.width = Math.max(120, Math.min(baseSize, 200)); // Clamp between 120px and 200px
+    canvas.height = Math.max(120, Math.min(baseSize, 200));
     loadingScreen.appendChild(canvas);
-    console.log("[Particles.js] Canvas created and appended to loading screen");
+    console.log(`[Particles.js] Canvas created with size ${canvas.width}x${canvas.height} on ${pageClass}`);
 
     const renderer = new THREE.WebGLRenderer({ canvas, alpha: true });
-    renderer.setSize(200, 200);
+    renderer.setSize(canvas.width, canvas.height);
     console.log("[Particles.js] Renderer initialized");
 
     const scene = new THREE.Scene();
@@ -28,8 +33,8 @@ function initParticles() {
         0.1,
         1000
     );
-    camera.position.set(0, 0, 1.5); // Center camera position
-    camera.lookAt(0, 0, 0); // Focus on the center of the scene
+    camera.position.set(0, 0, 1.5);
+    camera.lookAt(0, 0, 0);
     console.log("[Particles.js] Camera set up");
 
     // Define fixed sphere and particle properties
@@ -38,16 +43,22 @@ function initParticles() {
     const particleSize = radius / particleSizeFactor;
     console.log(`[Particles.js] Sphere radius set to: ${radius}, Particle size set to: ${particleSize}`);
 
-    // Create particles on the surface of a 3D sphere
-    const particleCount = 150;
-    // const particleCount = isMobile ? (window.innerWidth <= 360 ? 30 : 50) : 150;
+    // Dynamic particle count based on device
+    const isMobile = /Mobi|Android/i.test(navigator.userAgent);
+    const particleCount = isMobile ? (window.innerWidth <= 360 ? 30 : 50) : 150;
+    console.log(`[Particles.js] Particle count set to: ${particleCount} based on device`);
+
     const particles = new THREE.Group();
-    particles.position.set(0, 0, 0); // Ensure the particle group is centered in the scene
+    particles.position.set(0, 0, 0);
     const particlePositions = [];
 
     for (let i = 0; i < particleCount; i++) {
         const geometry = new THREE.SphereGeometry(particleSize, 16, 16);
-        const material = new THREE.MeshBasicMaterial({ color: 0xffffff });
+        const material = new THREE.MeshBasicMaterial({ 
+            color: Math.random() * 0xffffff,
+            transparent: true,
+            opacity: 0.8
+        });
         const particle = new THREE.Mesh(geometry, material);
 
         const phi = Math.acos(2 * Math.random() - 1);
@@ -63,6 +74,8 @@ function initParticles() {
     scene.add(particles);
     console.log("[Particles.js] Particles created and added to scene");
 
+    let animationCycleComplete = false;
+
     function animate() {
         requestAnimationFrame(animate);
 
@@ -77,13 +90,29 @@ function initParticles() {
         particles.rotation.x += 0.01;
         particles.rotation.y += 0.002;
 
+        if (!animationCycleComplete && particles.rotation.y >= Math.PI * 2) {
+            animationCycleComplete = true;
+            const loadingScreen = document.getElementById('loading-screen');
+            if (loadingScreen) {
+                loadingScreen.dispatchEvent(new Event('animationComplete'));
+                console.log("[Particles.js] Animation cycle complete, event dispatched");
+            }
+        }
+
         renderer.render(scene, camera);
     }
 
     animate();
     console.log("[Particles.js] Animation loop started");
 
+    // Update canvas size on window resize
     window.addEventListener("resize", () => {
+        const newViewportWidth = window.innerWidth;
+        const newViewportHeight = window.innerHeight;
+        const newBaseSize = Math.min(newViewportWidth, newViewportHeight) * 0.25;
+        canvas.width = Math.max(120, Math.min(newBaseSize, 200));
+        canvas.height = Math.max(120, Math.min(newBaseSize, 200));
+        renderer.setSize(canvas.width, canvas.height);
         camera.aspect = canvas.width / canvas.height;
         camera.updateProjectionMatrix();
     });
