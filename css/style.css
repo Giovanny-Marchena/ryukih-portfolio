@@ -130,7 +130,7 @@ h1 {
 
 /* Loading Screen */
 #loading-screen {
-    position: fixed;
+    position: center;
     top: 0;
     left: 0;
     width: 100vw;
