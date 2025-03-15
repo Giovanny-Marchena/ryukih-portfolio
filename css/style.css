@@ -4,23 +4,72 @@ body {
     background-color: #1a1a1a;
     color: #ffffff;
     font-family: 'Inter', sans-serif;
+    min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
 }
 
+/* Navbar */
+.navbar {
+    background: transparent;
+    padding: 0.5rem 0;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.logo-link {
+    margin-right: 2rem;
+}
+
+.logo {
+    height: 30px;
+    width: auto;
+    vertical-align: middle;
+}
+
+.nav-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+}
+
+.nav-links li {
+    margin: 0 1.5rem;
+}
+
+.nav-links a {
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: color 0.3s ease;
+}
+
+.nav-links a:hover {
+    color: #FACA16;
+    /* Hover color */
+}
+
+/* Main Content */
 .content {
     text-align: center;
     padding: 2rem;
     opacity: 0;
-    /* For fade-in effect */
     transition: opacity 1s ease-in;
 }
 
 .content.loaded {
     opacity: 1;
-    /* Fade-in when JS adds this class */
 }
 
 h1 {
@@ -62,5 +111,28 @@ h1 {
 }
 
 .links a:hover {
-    color: #00b4d8;
+    color: #FACA16;
+    /* Hover color */
+}
+
+/* Loading Screen */
+#loading-screen {
+    position: center;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: #1a1a1a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.5s ease-out;
+    z-index: 2000;
+}
+
+#particleCanvas {
+    width: 200px;
+    height: 200px;
+    display: block;
+    margin: 0 auto;
 }
