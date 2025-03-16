@@ -14,6 +14,8 @@
     <meta property="og:type" content="website">
     <title>RyuKih - John Doe</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/three@0.174.0/build/three.module.js" as="script"
+        crossorigin="anonymous">
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" as="style"
         onload="this.rel='stylesheet'">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap&font-display=swap"
@@ -40,7 +42,6 @@
 
 <body class="page-index">
     <header>
-        <!-- index.html (snippet) -->
         <div id="loading-screen">
             <canvas id="particleCanvas"></canvas>
             <!-- <div id="loading-text">Loading...</div> -->
@@ -98,47 +99,7 @@
       }
     </script>
 
-    <!-- Initialize Three.js and OrbitControls -->
-    <script type="module">
-        import * as THREE from 'three';
-        import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-
-        // Log loading status
-        console.log(typeof THREE === "object" ? "Three.js loaded successfully" : "Three.js failed to load");
-        console.log(typeof OrbitControls === "function" ? "OrbitControls loaded successfully" : "OrbitControls failed to load");
-    </script>
-
-    <!-- Load and initialize particles.js -->
-    <!-- <script type="module" src="js/particles.js"></script> -->
-
-    <!-- Load and initialize particles.js -->
-    <script type="module">
-        import { initParticles } from './js/particles.js';
-
-        // Ensure initParticles is only called once
-        let isParticlesInitialized = false;
-
-        document.addEventListener('DOMContentLoaded', () => {
-            if (!isParticlesInitialized) {
-                initParticles(document.body.className || "unknown-page");
-                isParticlesInitialized = true;
-                console.log(`[Index.html] Particles initialized on ${document.body.className || "unknown-page"}`);
-            }
-        });
-    </script>
-
-    <!-- Load and initialize background-sphere.js (only on page-index) -->
-    <script type="module">
-        if (document.body.className === "page-index") {
-            import('./js/background-sphere.js').then((module) => {
-                module.initBackgroundSphere(document.body.className);
-            }).catch((err) => {
-                console.error('Failed to load background-sphere.js:', err);
-            });
-        }
-    </script>
-
-    <!-- Load and initialize script.js -->
+    <!-- Load and initialize script.js (handles all dynamic imports) -->
     <script type="module" src="js/script.js"></script>
 
     <script type="application/ld+json">

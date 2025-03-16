@@ -1,22 +1,18 @@
-// script.js (updated)
-document.addEventListener('DOMContentLoaded', () => {
+// script.js
+document.addEventListener('DOMContentLoaded', async () => {
     const pageClass = document.body.className || "unknown-page";
     console.log(`[Script.js] Loaded on page: ${pageClass}`);
 
-    // Navbar and hamburger menu
+    // Navbar and hamburger menu (unchanged)
     const navbar = document.querySelector('.navbar');
     const hamburger = document.querySelector('.hamburger');
     const navLinks = document.querySelector('.nav-links');
 
-    if (navbar) {
-        console.log(`[Script.js] Navbar found on ${pageClass}`);
-    } else {
-        console.error(`[Script.js] Navbar not found on ${pageClass}`);
-    }
+    if (navbar) console.log(`[Script.js] Navbar found on ${pageClass}`);
+    else console.error(`[Script.js] Navbar not found on ${pageClass}`);
 
     if (hamburger && navLinks) {
         console.log(`[Script.js] Hamburger and nav-links found on ${pageClass}`);
-
         const calculateNavHeight = () => {
             navLinks.style.maxHeight = '0px';
             navLinks.style.display = 'flex';
@@ -30,12 +26,8 @@ document.addEventListener('DOMContentLoaded', () => {
         hamburger.addEventListener('click', () => {
             const isExpanded = hamburger.classList.toggle('active');
             navLinks.classList.toggle('active');
-            if (isExpanded) {
-                const navHeight = calculateNavHeight();
-                navLinks.style.maxHeight = navHeight;
-            } else {
-                navLinks.style.maxHeight = '0px';
-            }
+            if (isExpanded) navLinks.style.maxHeight = calculateNavHeight();
+            else navLinks.style.maxHeight = '0px';
             hamburger.setAttribute('aria-expanded', isExpanded);
             console.log(`[Script.js] Hamburger menu toggled on ${pageClass}, aria-expanded: ${isExpanded}`);
         });
@@ -51,16 +43,13 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         window.addEventListener('resize', () => {
-            if (navLinks.classList.contains('active')) {
-                const navHeight = calculateNavHeight();
-                navLinks.style.maxHeight = navHeight;
-            }
+            if (navLinks.classList.contains('active')) navLinks.style.maxHeight = calculateNavHeight();
         });
     } else {
         console.error(`[Script.js] Hamburger or nav-links not found on ${pageClass}`);
     }
 
-    // Highlight active page
+    // Highlight active page (unchanged)
     const currentPath = window.location.pathname;
     document.querySelectorAll('.nav-links a').forEach(link => {
         if (link.getAttribute('href') === currentPath || (link.getAttribute('href') === 'index.html' && currentPath === '/')) {
@@ -69,72 +58,54 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Loading screen logic with particle sphere only
+    // Loading screen logic
     const content = document.querySelector('.content');
     const loadingScreen = document.getElementById('loading-screen');
 
-    if (!content) {
-        console.error(`[Script.js] Content element not found on ${pageClass}`);
-        return;
-    }
-    if (!loadingScreen) {
-        console.error(`[Script.js] Loading screen element not found on ${pageClass}`);
+    if (!content || !loadingScreen) {
+        console.error(`[Script.js] Missing content or loading screen on ${pageClass}`);
         return;
     }
 
     const adjustNavbarZIndex = () => {
-        if (loadingScreen.style.display !== 'none' && loadingScreen.style.opacity !== '0') {
-            navbar.style.zIndex = parseInt(getComputedStyle(loadingScreen).zIndex) + 1;
-        } else {
-            navbar.style.zIndex = '1000';
-        }
+        navbar.style.zIndex = loadingScreen.style.display !== 'none' ? '2001' : '1000';
     };
     adjustNavbarZIndex();
 
-    // Progress indicator (non-blocking)
-    let resourcesLoaded = 0;
-    const totalResources = document.images.length + document.scripts.length;
-
-
-    function updateLoadingProgress() {
-        resourcesLoaded++;
-        const progress = Math.min(100, (resourcesLoaded / totalResources) * 100);
-        console.log(`[Script.js] Progress updated to ${progress}% on ${pageClass}`);
-        if (progress >= 100) {
-            console.log(`[Script.js] Forcing loading screen fade-out on ${pageClass}`);
-            loadingScreen.style.opacity = '0';
-            setTimeout(() => {
-                loadingScreen.style.display = 'none';
-                content.classList.add('loaded');
-                adjustNavbarZIndex();
-                console.log(`[Script.js] Loading screen hidden, content revealed on ${pageClass}`);
-            }, 300); // Keep 300ms for smooth transition
-        }
+    function hideLoadingScreen() {
+        loadingScreen.style.transition = 'opacity 0.3s ease-out';
+        loadingScreen.style.opacity = '0';
+        setTimeout(() => {
+            loadingScreen.style.display = 'none';
+            content.classList.add('loaded');
+            adjustNavbarZIndex();
+            console.log(`[Script.js] Loading screen hidden on ${pageClass}`);
+        }, 300);
     }
 
-    document.querySelectorAll('img, script').forEach(resource => {
-        if (resource.complete) {
-            console.log(`Resource loaded: ${resource.src || resource.href}`);
-            updateLoadingProgress();
-        } else {
-            resource.addEventListener('load', () => {
-                console.log(`Resource loaded: ${resource.src || resource.href}`);
-                updateLoadingProgress();
-            });
-            resource.addEventListener('error', () => {
-                console.error(`Failed to load resource: ${resource.src || resource.href}`);
-                updateLoadingProgress();
-            });
+    // Dynamically import particles and background sphere with logging
+    try {
+        const { initParticles } = await import('./particles.js');
+        console.log(`[Script.js] Successfully imported particles.js on ${pageClass}`);
+        const { initBackgroundSphere } = await import('./background-sphere.js');
+        console.log(`[Script.js] Successfully imported background-sphere.js on ${pageClass}`);
+
+        initParticles(pageClass); // Start loading sphere
+        if (pageClass === 'page-index') {
+            initBackgroundSphere(pageClass); // Start background sphere only on index
         }
-    });
+    } catch (err) {
+        console.error(`[Script.js] Failed to load modules: ${err}`);
+    }
 
-    // Fallback: Ensure fade-out happens even if resources don't load
     window.addEventListener('load', () => {
-        console.log(`[Script.js] Window loaded, ensuring fade-out on ${pageClass}`);
-        updateLoadingProgress();
+        console.log(`[Script.js] Window loaded on ${pageClass}`);
+        hideLoadingScreen();
     });
 
-    // Projects Logic (Deferred until page is interactive)
+    setTimeout(hideLoadingScreen, 2000);
+
+    // Projects Logic (unchanged)
     const projects = [
         { id: 1, title: "RyugiLab", description: "A home lab setup for networking and server experiments.", link: "project-ryugilab.html" },
         { id: 2, title: "Network Monitor Tool", description: "A Python tool to monitor network traffic.", link: "project-network-monitor.html" },
@@ -153,26 +124,17 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!projectGrid) return;
         projectGrid.innerHTML = '';
         const projectsToShow = projects.slice(0, visibleProjects);
-
         projectsToShow.forEach(project => {
             const thumbnail = document.createElement('div');
             thumbnail.className = 'project-thumbnail';
-            thumbnail.innerHTML = `
-                <h3>${project.title}</h3>
-                <p>${project.description}</p>
-            `;
+            thumbnail.innerHTML = `<h3>${project.title}</h3><p>${project.description}</p>`;
             thumbnail.addEventListener('click', () => {
                 window.location.href = project.link;
                 console.log(`[Script.js] Navigating to ${project.link}`);
             });
             projectGrid.appendChild(thumbnail);
         });
-
-        if (visibleProjects < projects.length) {
-            showMoreBtn.style.display = 'block';
-        } else {
-            showMoreBtn.style.display = 'none';
-        }
+        showMoreBtn.style.display = visibleProjects < projects.length ? 'block' : 'none';
     }
 
     if (showMoreBtn) {
@@ -188,7 +150,7 @@ document.addEventListener('DOMContentLoaded', () => {
         renderProjects();
     });
 
-    // Work With Me Button Functionality
+    // Work With Me Button (unchanged)
     const workWithMeBtn = document.querySelector('.work-with-me-btn');
     if (workWithMeBtn && pageClass === 'page-contact') {
         console.log(`[Script.js] Work With Me button found on ${pageClass}`);
@@ -199,36 +161,4 @@ document.addEventListener('DOMContentLoaded', () => {
     } else if (workWithMeBtn) {
         console.log(`[Script.js] Work With Me button found but not on contact page, skipping functionality on ${pageClass}`);
     }
-
-    /* Commented out: Yellow loading circle logic */
-    /*
-    const loadingText = document.getElementById('loading-text');
-    // Show fallback spinner if loading takes too long
-    setTimeout(() => {
-        if (loadingScreen.style.display !== 'none' && loadingScreen.style.opacity !== '0') {
-            if (loadingText) {
-                loadingText.classList.add('show-fallback');
-                console.log(`[Script.js] Showing fallback spinner on ${pageClass}`);
-            }
-        }
-    }, 2000);
-
-    function updateLoadingProgress() {
-        resourcesLoaded++;
-        const progress = Math.min(100, (resourcesLoaded / totalResources) * 100);
-        if (loadingText) loadingText.textContent = `Loading... ${Math.round(progress)}%`;
-        console.log(`[Script.js] Progress updated to ${progress}% on ${pageClass}`);
-        if (progress >= 100) {
-            console.log(`[Script.js] Forcing loading screen fade-out on ${pageClass}`);
-            loadingScreen.style.opacity = '0';
-            if (loadingText) loadingText.style.opacity = '0';
-            setTimeout(() => {
-                loadingScreen.style.display = 'none';
-                content.classList.add('loaded');
-                adjustNavbarZIndex();
-                console.log(`[Script.js] Loading screen hidden, content revealed on ${pageClass}`);
-            }, 500);
-        }
-    }
-    */
 });

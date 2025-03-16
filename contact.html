@@ -14,6 +14,8 @@
     <meta property="og:type" content="website">
     <title>Contact - RyuKih</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/three@0.174.0/build/three.module.js" as="script"
+        crossorigin="anonymous">
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" as="style"
         onload="this.rel='stylesheet'">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap&font-display=swap"
@@ -24,7 +26,7 @@
     <header>
         <div id="loading-screen">
             <canvas id="particleCanvas"></canvas>
-            <div id="loading-text">Loading...</div>
+            <!-- <div id="loading-text">Loading...</div> --> <!-- Commented out to match index.html -->
         </div>
         <nav class="navbar">
             <a href="index.html" class="logo-link">
@@ -70,9 +72,20 @@
             <li><a href="https://linkedin.com/in/johndoe">LinkedIn</a></li>
         </ul>
     </main>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r169/three.min.js"></script>
-    <script defer src="js/particles.js"></script>
-    <script defer src="js/script.js"></script>
+
+    <!-- Import map for ES modules -->
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://cdn.jsdelivr.net/npm/three@0.174.0/build/three.module.js",
+          "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.174.0/examples/jsm/"
+        }
+      }
+    </script>
+
+    <!-- Load script.js as a module -->
+    <script type="module" src="js/script.js"></script>
+
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",

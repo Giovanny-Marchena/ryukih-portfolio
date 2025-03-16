@@ -1,4 +1,4 @@
-// background-sphere.js (updated)
+// background-sphere.js
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
@@ -10,38 +10,35 @@ export function initBackgroundSphere(pageClass) {
     }
 
     let canvas = document.getElementById('backgroundSphereCanvas');
-    if (canvas) {
-        console.log(`[BackgroundSphere.js] Removing existing backgroundSphereCanvas to avoid context conflicts on ${pageClass}`);
-        canvas.remove();
-    }
+    if (canvas) canvas.remove();
 
     canvas = document.createElement('canvas');
     canvas.id = 'backgroundSphereCanvas';
     canvas.className = 'background-sphere';
     backgroundContainer.appendChild(canvas);
+    console.log(`[BackgroundSphere.js] Canvas created for background sphere on ${pageClass}`);
 
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-    camera.position.set(0, 0, 5);
-    camera.lookAt(0, 0, 0);
+    camera.position.z = 5;
 
     const renderer = new THREE.WebGLRenderer({ canvas, alpha: true });
+    if (!renderer) {
+        console.error(`[BackgroundSphere.js] Failed to create WebGLRenderer on ${pageClass}`);
+        return;
+    }
+    
     function updateRendererSize() {
         renderer.setSize(window.innerWidth, window.innerHeight);
         camera.aspect = window.innerWidth / window.innerHeight;
         camera.updateProjectionMatrix();
-        console.log(`[BackgroundSphere.js] Renderer updated with size ${window.innerWidth}x${window.innerHeight} on ${pageClass}`);
     }
     updateRendererSize();
+    console.log(`[BackgroundSphere.js] Renderer initialized with size ${window.innerWidth}x${window.innerHeight} on ${pageClass}`);
 
-    const baseRadius = 3.5;
-    function getScaledRadius() {
-        return baseRadius * Math.min(1, window.innerWidth / 1920);
-    }
-    let radius = getScaledRadius();
-    const particleSize = 0.025 * Math.min(1, window.innerWidth / 1920);
-    const particleCount = Math.floor(200 * Math.min(1, window.innerWidth / 1920));
-
+    const baseRadius = 4;
+    const radius = baseRadius * Math.min(1, window.innerWidth / 1920);
+    const particleCount = Math.floor(500 * Math.min(1, window.innerWidth / 1920));
     const positions = new Float32Array(particleCount * 3);
     const colors = new Float32Array(particleCount * 3);
     const speeds = new Float32Array(particleCount);
@@ -65,14 +62,15 @@ export function initBackgroundSphere(pageClass) {
     geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
     geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
     const material = new THREE.PointsMaterial({
-        size: particleSize,
+        size: 0.025 * Math.min(1, window.innerWidth / 1920),
         transparent: true,
-        opacity: 0.8,
+        opacity: 1.0,
         vertexColors: true,
         sizeAttenuation: true
     });
     const particles = new THREE.Points(geometry, material);
     scene.add(particles);
+    console.log(`[BackgroundSphere.js] Particles added to scene with ${particleCount} particles on ${pageClass}`);
 
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.enableZoom = false;
@@ -86,45 +84,33 @@ export function initBackgroundSphere(pageClass) {
         mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
     });
 
-    let opacity = 0;
-    material.opacity = 0;
     function animate() {
         requestAnimationFrame(animate);
-
-        if (opacity < 0.8) {
-            opacity += 0.02;
-            material.opacity = Math.min(opacity, 0.8);
-        }
-
         const positions = particles.geometry.attributes.position.array;
         for (let i = 0; i < particleCount; i++) {
             const index = i * 3;
-            let theta = (i / particleCount) * Math.PI * 2 + speeds[i] * Date.now() * 0.001;
-            const currentRadius = getScaledRadius();
-            positions[index] = currentRadius * Math.sin(phis[i]) * Math.cos(theta);
-            positions[index + 1] = currentRadius * Math.sin(phis[i]) * Math.sin(theta);
-            positions[index + 2] = currentRadius * Math.cos(phis[i]);
+            const theta = (i / particleCount) * Math.PI * 2 + speeds[i] * Date.now() * 0.001;
+            positions[index] = radius * Math.sin(phis[i]) * Math.cos(theta);
+            positions[index + 1] = radius * Math.sin(phis[i]) * Math.sin(theta);
+            positions[index + 2] = radius * Math.cos(phis[i]);
         }
         particles.geometry.attributes.position.needsUpdate = true;
-
         particles.rotation.y += (mouseX * 0.5 - particles.rotation.y) * 0.05 + 0.001;
         particles.rotation.x += (mouseY * 0.5 - particles.rotation.x) * 0.05 + 0.005;
-
         controls.update();
         renderer.render(scene, camera);
     }
-    animate();
+
+    // window.addEventListener('load', () => {
+    //     console.log(`[BackgroundSphere.js] Starting animation on ${pageClass}`);
+    //     animate();
+    // });
+    console.log(`[BackgroundSphere.js] Starting animation immediately on ${pageClass}`);
+    animate(); // Start animation right away
 
     let resizeTimeout;
     window.addEventListener("resize", () => {
         clearTimeout(resizeTimeout);
-        resizeTimeout = setTimeout(() => {
-            updateRendererSize();
-            radius = getScaledRadius();
-            material.size = 0.025 * Math.min(1, window.innerWidth / 1920);
-            console.log(`[BackgroundSphere.js] Radius updated to ${radius} on resize`);
-        }, 100);
+        resizeTimeout = setTimeout(updateRendererSize, 100);
     });
-
-    console.log(`[BackgroundSphere.js] Initialized with ${particleCount} particles, radius ${radius} on ${pageClass}`);
 }
