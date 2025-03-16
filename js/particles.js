@@ -23,8 +23,10 @@ export function initParticles(pageClass) {
     canvas.height = Math.max(120, Math.min(baseSize, 200));
 
     const renderer = new THREE.WebGLRenderer({ canvas, alpha: true });
-    if (!renderer) {
-        console.error(`[Particles.js] Failed to create WebGLRenderer on ${pageClass}`);
+    // Check WebGL2 support manually
+    const gl = renderer.getContext();
+    if (!gl.getParameter(gl.VERSION).includes('WebGL 2.0')) {
+        console.error(`[Particles.js] WebGL2 not supported on ${pageClass}`);
         return;
     }
     renderer.setSize(canvas.width, canvas.height);

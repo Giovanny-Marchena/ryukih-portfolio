@@ -23,11 +23,12 @@ export function initBackgroundSphere(pageClass) {
     camera.position.z = 5;
 
     const renderer = new THREE.WebGLRenderer({ canvas, alpha: true });
-    if (!renderer) {
-        console.error(`[BackgroundSphere.js] Failed to create WebGLRenderer on ${pageClass}`);
+    // Check WebGL2 support manually
+    const gl = renderer.getContext();
+    if (!gl.getParameter(gl.VERSION).includes('WebGL 2.0')) {
+        console.error(`[BackgroundSphere.js] WebGL2 not supported on ${pageClass}`);
         return;
     }
-    
     function updateRendererSize() {
         renderer.setSize(window.innerWidth, window.innerHeight);
         camera.aspect = window.innerWidth / window.innerHeight;
@@ -36,7 +37,7 @@ export function initBackgroundSphere(pageClass) {
     updateRendererSize();
     console.log(`[BackgroundSphere.js] Renderer initialized with size ${window.innerWidth}x${window.innerHeight} on ${pageClass}`);
 
-    const baseRadius = 4;
+    const baseRadius = 3;
     const radius = baseRadius * Math.min(1, window.innerWidth / 1920);
     const particleCount = Math.floor(500 * Math.min(1, window.innerWidth / 1920));
     const positions = new Float32Array(particleCount * 3);
@@ -64,7 +65,7 @@ export function initBackgroundSphere(pageClass) {
     const material = new THREE.PointsMaterial({
         size: 0.025 * Math.min(1, window.innerWidth / 1920),
         transparent: true,
-        opacity: 1.0,
+        opacity: 0.8,
         vertexColors: true,
         sizeAttenuation: true
     });
@@ -101,12 +102,8 @@ export function initBackgroundSphere(pageClass) {
         renderer.render(scene, camera);
     }
 
-    // window.addEventListener('load', () => {
-    //     console.log(`[BackgroundSphere.js] Starting animation on ${pageClass}`);
-    //     animate();
-    // });
     console.log(`[BackgroundSphere.js] Starting animation immediately on ${pageClass}`);
-    animate(); // Start animation right away
+    animate();
 
     let resizeTimeout;
     window.addEventListener("resize", () => {

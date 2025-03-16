@@ -1,11 +1,8 @@
-/* style.css (unchanged from your original, included for completeness) */
-
-/* Smooth scrolling behavior for the whole page */
+/* style.css */
 html {
     scroll-behavior: smooth;
 }
 
-/* Body styling */
 body {
     margin: 0;
     padding: 0;
@@ -19,7 +16,6 @@ body {
     align-items: center;
 }
 
-/* Navbar Styling */
 .navbar {
     background: transparent;
     padding: clamp(0.3rem, 1vw, 1rem);
@@ -44,7 +40,6 @@ body {
     vertical-align: middle;
 }
 
-/* Hamburger Button (for mobile view) */
 .hamburger {
     display: none;
     background: none;
@@ -63,7 +58,6 @@ body {
     transition: all 0.3s ease;
 }
 
-/* Hamburger icon transformation when active (cross effect) */
 .hamburger.active span:nth-child(1) {
     transform: rotate(45deg) translate(5px, 5px);
 }
@@ -76,7 +70,6 @@ body {
     transform: rotate(-45deg) translate(7px, -7px);
 }
 
-/* Navigation links */
 .nav-links {
     list-style: none;
     padding: 0;
@@ -90,7 +83,6 @@ body {
     overflow: hidden;
 }
 
-/* Ensure nav-links are visible on larger screens */
 @media (min-width: 601px) {
     .nav-links {
         max-height: none;
@@ -116,7 +108,6 @@ body {
     transition: color 0.3s ease;
 }
 
-/* Hover and active states for links */
 .nav-links a:hover,
 .nav-links a:focus {
     color: #FACA16;
@@ -130,7 +121,6 @@ body {
     border-bottom: 2px solid #FACA16;
 }
 
-/* Main content area */
 .content {
     text-align: center;
     padding: clamp(2rem, 5vw, 4rem);
@@ -167,7 +157,6 @@ h1 {
     color: #c0c0c0;
 }
 
-/* Links under the bio */
 .links {
     list-style: none;
     padding: 0;
@@ -187,7 +176,6 @@ h1 {
     transition: color 0.3s ease;
 }
 
-/* Hover state for links */
 .links a:hover,
 .links a:focus {
     color: #FACA16;
@@ -195,7 +183,6 @@ h1 {
     outline-offset: 2px;
 }
 
-/* Loading screen styling */
 #loading-screen {
     position: fixed;
     top: 0;
@@ -210,13 +197,11 @@ h1 {
     z-index: 2000;
 }
 
-/* Ensure children are hidden when #loading-screen is hidden */
 #loading-screen[style*="display: none"] #particleCanvas {
     display: none !important;
     visibility: hidden !important;
 }
 
-/* Particle canvas styling for loading sphere */
 #particleCanvas {
     width: clamp(120px, 25vmin, 200px);
     height: clamp(120px, 25vmin, 200px);
@@ -228,7 +213,6 @@ h1 {
     transform: translate(-50%, -50%);
 }
 
-/* Background Container and Sphere Styling */
 .background-container {
     position: fixed;
     top: 0;
@@ -236,7 +220,6 @@ h1 {
     width: 100vw;
     height: 100vh;
     z-index: 0;
-    /* Should be behind content but visible */
     overflow: hidden;
 }
 
@@ -244,10 +227,8 @@ h1 {
     width: 100%;
     height: 100%;
     opacity: 0.6;
-    /* Should be visible */
 }
 
-/* Contact Section Styling */
 .contact-section {
     background: #1a1a1a;
     padding: clamp(2rem, 5vw, 6rem) 0;
@@ -310,8 +291,6 @@ h1 {
     z-index: 1;
 }
 
-/* Starry Sky Effect */
-/* style.css */
 .contact-section::before {
     content: '';
     position: absolute;
@@ -320,7 +299,6 @@ h1 {
     width: 100%;
     height: 100%;
     background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAFElEQVQYV2NkYGD4z8DAwMgAAXwKqQ9D5QIDAQPwBwUGAAACYwQ8D4V5ZzgAAAABJRU5ErkJggg==");
-    /* Ensure quotes around the data URL */
     background-repeat: repeat;
     animation: twinkle 5s infinite;
     opacity: 0.1;
@@ -339,7 +317,6 @@ h1 {
     }
 }
 
-/* Project Grid Styling */
 .project-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -375,7 +352,6 @@ h1 {
     margin: 0;
 }
 
-/* Show More Button */
 .show-more-btn {
     display: block;
     margin: 20px auto;
@@ -394,7 +370,6 @@ h1 {
     background-color: #d4a614;
 }
 
-/* Media Queries for small screens (phones) */
 @media (max-width: 600px) {
     .hamburger {
         display: block;
@@ -449,7 +424,6 @@ h1 {
     }
 }
 
-/* Extra small screens (older phones) */
 @media (max-width: 360px) {
     .nav-links li {
         margin: 0.4rem 0;
@@ -464,42 +438,3 @@ h1 {
         height: clamp(100px, 20vmin, 150px);
     }
 }
-
-/* Commented out: Fallback spinner and loading text styles */
-/*
-#loading-screen::before {
-    content: '';
-    display: block;
-    width: 40px;
-    height: 40px;
-    border: 4px solid #FACA16;
-    border-top: 4px solid transparent;
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-    position: absolute;
-}
-
-@keyframes spin {
-    0% {
-        transform: rotate(0deg);
-    }
-    100% {
-        transform: rotate(360deg);
-    }
-}
-
-#loading-text {
-    position: absolute;
-    bottom: 20px;
-    color: #ffffff;
-    font-size: 1rem;
-    text-align: center;
-    width: 100%;
-    transition: opacity 0.5s ease-out;
-    opacity: 0;
-}
-
-#loading-text.show-fallback {
-    opacity: 1;
-}
-*/

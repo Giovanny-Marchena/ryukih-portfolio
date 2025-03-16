@@ -3,7 +3,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     const pageClass = document.body.className || "unknown-page";
     console.log(`[Script.js] Loaded on page: ${pageClass}`);
 
-    // Navbar and hamburger menu (unchanged)
     const navbar = document.querySelector('.navbar');
     const hamburger = document.querySelector('.hamburger');
     const navLinks = document.querySelector('.nav-links');
@@ -49,7 +48,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         console.error(`[Script.js] Hamburger or nav-links not found on ${pageClass}`);
     }
 
-    // Highlight active page (unchanged)
     const currentPath = window.location.pathname;
     document.querySelectorAll('.nav-links a').forEach(link => {
         if (link.getAttribute('href') === currentPath || (link.getAttribute('href') === 'index.html' && currentPath === '/')) {
@@ -58,7 +56,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     });
 
-    // Loading screen logic
     const content = document.querySelector('.content');
     const loadingScreen = document.getElementById('loading-screen');
 
@@ -83,16 +80,15 @@ document.addEventListener('DOMContentLoaded', async () => {
         }, 300);
     }
 
-    // Dynamically import particles and background sphere with logging
     try {
         const { initParticles } = await import('./particles.js');
         console.log(`[Script.js] Successfully imported particles.js on ${pageClass}`);
         const { initBackgroundSphere } = await import('./background-sphere.js');
         console.log(`[Script.js] Successfully imported background-sphere.js on ${pageClass}`);
 
-        initParticles(pageClass); // Start loading sphere
-        if (pageClass === 'page-index') {
-            initBackgroundSphere(pageClass); // Start background sphere only on index
+        initParticles(pageClass);
+        if (pageClass === 'page-index') { // Background sphere only on index page
+            initBackgroundSphere(pageClass);
         }
     } catch (err) {
         console.error(`[Script.js] Failed to load modules: ${err}`);
@@ -105,7 +101,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     setTimeout(hideLoadingScreen, 2000);
 
-    // Projects Logic (unchanged)
     const projects = [
         { id: 1, title: "RyugiLab", description: "A home lab setup for networking and server experiments.", link: "project-ryugilab.html" },
         { id: 2, title: "Network Monitor Tool", description: "A Python tool to monitor network traffic.", link: "project-network-monitor.html" },
@@ -150,7 +145,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         renderProjects();
     });
 
-    // Work With Me Button (unchanged)
     const workWithMeBtn = document.querySelector('.work-with-me-btn');
     if (workWithMeBtn && pageClass === 'page-contact') {
         console.log(`[Script.js] Work With Me button found on ${pageClass}`);
