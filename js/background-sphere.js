@@ -40,7 +40,7 @@ export function initBackgroundSphere(pageClass) {
     }
     updateRendererSize();
 
-    const baseRadius = 4;
+    const baseRadius = 2.5;
     const radius = baseRadius * Math.min(1, window.innerWidth / 1920);
     const particleCount = Math.floor(500 * Math.min(1, window.innerWidth / 1920));
     const positions = new Float32Array(particleCount * 3);

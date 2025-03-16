@@ -11,21 +11,23 @@ document.addEventListener('DOMContentLoaded', () => {
     ]).catch(error => {
         console.error('[Script.js] Load error:', error);
         const loadingScreen = document.getElementById('loading-screen');
-        loadingScreen.classList.add('hidden'); // Use CSS transition
+        loadingScreen.classList.add('hidden');
     }).then(() => {
         setTimeout(() => {
             const loadingScreen = document.getElementById('loading-screen');
-            loadingScreen.classList.add('hidden'); // Use CSS transition
+            loadingScreen.classList.add('hidden');
         }, 500);
     });
 
     // Hamburger menu toggle
     const hamburger = document.querySelector('.hamburger');
     const navLinks = document.querySelector('.nav-links');
+    const navbar = document.querySelector('.navbar');
     hamburger.addEventListener('click', (e) => {
         e.stopPropagation();
         hamburger.classList.toggle('active');
         navLinks.classList.toggle('active');
+        navbar.classList.toggle('active'); // Add/remove .active on navbar
     });
 
     // Lazy-load particles.js for all pages
@@ -48,7 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
         let projectsToShow = projects.slice(0, 3);
         function renderProjects(projectsToShow) {
             projectGrid.innerHTML = '';
-            projectsToShow.forEach(project => {
+            projectsToShow.forEach((project, index) => {
                 const projectCard = document.createElement('div');
                 projectCard.className = 'project-card';
                 projectCard.innerHTML = `
@@ -57,6 +59,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     ${project.tech ? `<p><strong>Tech:</strong> ${project.tech}</p>` : ''}
                     ${project.link ? `<a href="${project.link}" target="_blank" rel="noopener noreferrer">View Project</a>` : ''}
                 `;
+                if (index === 0) {
+                    projectCard.style.animation = 'fadeIn 1s ease-in forwards';
+                }
                 projectGrid.appendChild(projectCard);
             });
         }
