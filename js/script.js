@@ -1,3 +1,4 @@
+// script.js (updated)
 document.addEventListener('DOMContentLoaded', () => {
     const pageClass = document.body.className || "unknown-page";
     console.log(`[Script.js] Loaded on page: ${pageClass}`);
@@ -68,10 +69,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Loading screen logic with progress indicator
+    // Loading screen logic with particle sphere only
     const content = document.querySelector('.content');
     const loadingScreen = document.getElementById('loading-screen');
-    const loadingText = document.getElementById('loading-text');
 
     if (!content) {
         console.error(`[Script.js] Content element not found on ${pageClass}`);
@@ -91,27 +91,25 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     adjustNavbarZIndex();
 
-    // Fade out loading screen immediately
-    setTimeout(() => {
-        console.log(`[Script.js] Forcing loading screen fade-out on ${pageClass}`);
-        loadingScreen.style.opacity = '0';
-        setTimeout(() => {
-            loadingScreen.style.display = 'none';
-            content.classList.add('loaded');
-            adjustNavbarZIndex();
-            console.log(`[Script.js] Loading screen hidden, content revealed on ${pageClass}`);
-        }, 500);
-    }, 1000);
-
     // Progress indicator (non-blocking)
     let resourcesLoaded = 0;
     const totalResources = document.images.length + document.scripts.length;
 
+
     function updateLoadingProgress() {
         resourcesLoaded++;
         const progress = Math.min(100, (resourcesLoaded / totalResources) * 100);
-        if (loadingText) loadingText.textContent = `Loading... ${Math.round(progress)}%`;
         console.log(`[Script.js] Progress updated to ${progress}% on ${pageClass}`);
+        if (progress >= 100) {
+            console.log(`[Script.js] Forcing loading screen fade-out on ${pageClass}`);
+            loadingScreen.style.opacity = '0';
+            setTimeout(() => {
+                loadingScreen.style.display = 'none';
+                content.classList.add('loaded');
+                adjustNavbarZIndex();
+                console.log(`[Script.js] Loading screen hidden, content revealed on ${pageClass}`);
+            }, 300); // Keep 300ms for smooth transition
+        }
     }
 
     document.querySelectorAll('img, script').forEach(resource => {
@@ -128,6 +126,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 updateLoadingProgress();
             });
         }
+    });
+
+    // Fallback: Ensure fade-out happens even if resources don't load
+    window.addEventListener('load', () => {
+        console.log(`[Script.js] Window loaded, ensuring fade-out on ${pageClass}`);
+        updateLoadingProgress();
     });
 
     // Projects Logic (Deferred until page is interactive)
@@ -195,4 +199,36 @@ document.addEventListener('DOMContentLoaded', () => {
     } else if (workWithMeBtn) {
         console.log(`[Script.js] Work With Me button found but not on contact page, skipping functionality on ${pageClass}`);
     }
+
+    /* Commented out: Yellow loading circle logic */
+    /*
+    const loadingText = document.getElementById('loading-text');
+    // Show fallback spinner if loading takes too long
+    setTimeout(() => {
+        if (loadingScreen.style.display !== 'none' && loadingScreen.style.opacity !== '0') {
+            if (loadingText) {
+                loadingText.classList.add('show-fallback');
+                console.log(`[Script.js] Showing fallback spinner on ${pageClass}`);
+            }
+        }
+    }, 2000);
+
+    function updateLoadingProgress() {
+        resourcesLoaded++;
+        const progress = Math.min(100, (resourcesLoaded / totalResources) * 100);
+        if (loadingText) loadingText.textContent = `Loading... ${Math.round(progress)}%`;
+        console.log(`[Script.js] Progress updated to ${progress}% on ${pageClass}`);
+        if (progress >= 100) {
+            console.log(`[Script.js] Forcing loading screen fade-out on ${pageClass}`);
+            loadingScreen.style.opacity = '0';
+            if (loadingText) loadingText.style.opacity = '0';
+            setTimeout(() => {
+                loadingScreen.style.display = 'none';
+                content.classList.add('loaded');
+                adjustNavbarZIndex();
+                console.log(`[Script.js] Loading screen hidden, content revealed on ${pageClass}`);
+            }, 500);
+        }
+    }
+    */
 });

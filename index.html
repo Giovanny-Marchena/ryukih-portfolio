@@ -18,20 +18,35 @@
         onload="this.rel='stylesheet'">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap&font-display=swap"
         rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+        }
+
+        canvas {
+            width: 100%;
+            height: 100vh;
+        }
+
+        #backgroundSphereCanvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
+    </style>
 </head>
 
 <body class="page-index">
     <header>
-        <!-- Loading Screen -->
+        <!-- index.html (snippet) -->
         <div id="loading-screen">
             <canvas id="particleCanvas"></canvas>
-            <div id="loading-text">Loading...</div>
+            <!-- <div id="loading-text">Loading...</div> -->
         </div>
-
-        <!-- Navigation Bar -->
         <nav class="navbar">
             <a href="index.html" class="logo-link">
-                <!-- <img src="assets/logo.webp" alt="RyuKih Logo" class="logo"> -->
                 <img src="assets/logo.webp" alt="RyuKih Logo" class="logo" loading="lazy">
             </a>
             <button class="hamburger" aria-label="Toggle navigation">
@@ -47,12 +62,9 @@
             </ul>
         </nav>
     </header>
-
-    <!-- Background Container -->
     <div class="background-container">
         <canvas id="backgroundSphereCanvas" class="background-sphere"></canvas>
     </div>
-    
     <main class="content" id="home">
         <noscript>
             <h1>John Doe</h1>
@@ -67,8 +79,8 @@
         <h1>John Doe</h1>
         <p class="subtitle">Computer Science Student | RyugiLab Creator</p>
         <p class="bio">I’m a final-year computer science student exploring networking, servers, and innovative tech
-            projects. Notable works include a custom server setup for RyugiLab and contributions to open-source networking
-            tools on GitHub.</p>
+            projects. Notable works include a custom server setup for RyugiLab and contributions to open-source
+            networking tools on GitHub.</p>
         <ul class="links">
             <li><a href="mailto:john@ryukih.com">Email</a></li>
             <li><a href="https://github.com/johndoe">GitHub</a></li>
@@ -76,13 +88,58 @@
         </ul>
     </main>
 
-    <!-- Include Three.js from CDN -->
-    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- Define the import map -->
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://cdn.jsdelivr.net/npm/three@0.174.0/build/three.module.js",
+          "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.174.0/examples/jsm/"
+        }
+      }
+    </script>
 
-    <!-- Your custom scripts -->
-    <script defer src="js/particles.js"></script>
-    <script defer src="js/background-sphere.js"></script>
-    <script defer src="js/script.js"></script>
+    <!-- Initialize Three.js and OrbitControls -->
+    <script type="module">
+        import * as THREE from 'three';
+        import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+        // Log loading status
+        console.log(typeof THREE === "object" ? "Three.js loaded successfully" : "Three.js failed to load");
+        console.log(typeof OrbitControls === "function" ? "OrbitControls loaded successfully" : "OrbitControls failed to load");
+    </script>
+
+    <!-- Load and initialize particles.js -->
+    <!-- <script type="module" src="js/particles.js"></script> -->
+
+    <!-- Load and initialize particles.js -->
+    <script type="module">
+        import { initParticles } from './js/particles.js';
+
+        // Ensure initParticles is only called once
+        let isParticlesInitialized = false;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            if (!isParticlesInitialized) {
+                initParticles(document.body.className || "unknown-page");
+                isParticlesInitialized = true;
+                console.log(`[Index.html] Particles initialized on ${document.body.className || "unknown-page"}`);
+            }
+        });
+    </script>
+
+    <!-- Load and initialize background-sphere.js (only on page-index) -->
+    <script type="module">
+        if (document.body.className === "page-index") {
+            import('./js/background-sphere.js').then((module) => {
+                module.initBackgroundSphere(document.body.className);
+            }).catch((err) => {
+                console.error('Failed to load background-sphere.js:', err);
+            });
+        }
+    </script>
+
+    <!-- Load and initialize script.js -->
+    <script type="module" src="js/script.js"></script>
 
     <script type="application/ld+json">
     {
@@ -96,7 +153,6 @@
         ]
     }
     </script>
-
     <noscript>
         <p style="text-align: center; color: red;">⚠️ JavaScript is required for full functionality. See basic content
             above.</p>

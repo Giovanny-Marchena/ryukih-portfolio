@@ -22,13 +22,10 @@
 
 <body class="page-about">
     <header>
-        <!-- Loading Screen -->
         <div id="loading-screen">
             <canvas id="particleCanvas"></canvas>
             <div id="loading-text">Loading...</div>
         </div>
-
-        <!-- Navigation Bar -->
         <nav class="navbar">
             <a href="index.html" class="logo-link">
                 <img src="assets/logo.webp" alt="RyuKih Logo" class="logo" loading="lazy">
@@ -46,7 +43,6 @@
             </ul>
         </nav>
     </header>
-
     <main class="content" id="about">
         <noscript>
             <h1>About Me</h1>
@@ -59,14 +55,11 @@
             scalable server setups, exploring cloud infrastructure, and contributing to open-source projects. This
             portfolio showcases my journey and the skills I’ve developed along the way.</p>
     </main>
-
-    <!-- Include Three.js from CDN -->
-    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-
-    <!-- Your custom scripts -->
+    <!-- Remove defer from Three.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r169/three.min.js"></script>
     <script defer src="js/particles.js"></script>
     <script defer src="js/script.js"></script>
-
+    
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
@@ -79,7 +72,6 @@
         ]
     }
     </script>
-
     <noscript>
         <p style="text-align: center; color: red;">⚠️ JavaScript is required for full functionality. See basic content
             above.</p>

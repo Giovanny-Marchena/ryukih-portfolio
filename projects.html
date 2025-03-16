@@ -22,13 +22,10 @@
 
 <body class="page-projects">
     <header>
-        <!-- Loading Screen -->
         <div id="loading-screen">
             <canvas id="particleCanvas"></canvas>
             <div id="loading-text">Loading...</div>
         </div>
-
-        <!-- Navigation Bar -->
         <nav class="navbar">
             <a href="index.html" class="logo-link">
                 <img src="assets/logo.webp" alt="RyuKih Logo" class="logo" loading="lazy">
@@ -46,7 +43,6 @@
             </ul>
         </nav>
     </header>
-
     <main class="content" id="projects">
         <noscript>
             <h1>Projects</h1>
@@ -59,14 +55,10 @@
         <div id="project-grid" class="project-grid"></div>
         <button id="show-more" class="show-more-btn" style="display: none;">Show More</button>
     </main>
-
-    <!-- Include Three.js locally -->
-    <script defer src="js/three.min.js"></script>
-
-    <!-- Your custom scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r169/three.min.js"></script>
     <script defer src="js/particles.js"></script>
     <script defer src="js/script.js"></script>
-
+    
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
@@ -79,7 +71,6 @@
         ]
     }
     </script>
-
     <noscript>
         <p style="text-align: center; color: red;">⚠️ JavaScript is required for full functionality. See basic content
             above.</p>

@@ -1,3 +1,5 @@
+/* style.css (updated) */
+
 /* Smooth scrolling behavior for the whole page */
 html {
     scroll-behavior: smooth;
@@ -92,15 +94,12 @@ body {
 @media (min-width: 601px) {
     .nav-links {
         max-height: none;
-        /* Override max-height for desktop */
         opacity: 1;
-        /* Ensure visibility */
     }
 }
 
 .nav-links.active {
     opacity: 1;
-    /* For mobile, this will be set dynamically */
 }
 
 .nav-links li {
@@ -140,9 +139,7 @@ body {
     width: 100%;
     box-sizing: border-box;
     position: relative;
-    /* Ensure content is above the background */
     z-index: 10;
-    /* Above the background sphere */
 }
 
 .content.loaded {
@@ -213,49 +210,22 @@ h1 {
     z-index: 2000;
 }
 
-/* Fallback spinner if particle animation is delayed */
-#loading-screen::before {
-    content: '';
-    display: block;
-    width: 40px;
-    height: 40px;
-    border: 4px solid #FACA16;
-    border-top: 4px solid transparent;
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-    position: absolute;
+/* Ensure children are hidden when #loading-screen is hidden */
+#loading-screen[style*="display: none"] #particleCanvas {
+    display: none !important;
+    visibility: hidden !important;
 }
 
-@keyframes spin {
-    0% {
-        transform: rotate(0deg);
-    }
-
-    100% {
-        transform: rotate(360deg);
-    }
-}
-
-/* Loading text for progress indicator */
-#loading-text {
-    position: absolute;
-    bottom: 20px;
-    color: #ffffff;
-    font-size: 1rem;
-    text-align: center;
-    width: 100%;
-}
-
-/* Particle canvas styling */
+/* Particle canvas styling for loading sphere */
 #particleCanvas {
     width: clamp(120px, 25vmin, 200px);
     height: clamp(120px, 25vmin, 200px);
     display: block;
     margin: 0 auto;
-    position: relative;
+    position: absolute;
+    top: 50%;
     left: 50%;
-    transform: translateX(-50%);
-    visibility: visible !important;
+    transform: translate(-50%, -50%);
 }
 
 /* Background Container and Sphere Styling */
@@ -266,7 +236,6 @@ h1 {
     width: 100vw;
     height: 100vh;
     z-index: 0;
-    /* Lowest layer, part of the background */
     overflow: hidden;
 }
 
@@ -274,12 +243,9 @@ h1 {
     width: 100%;
     height: 100%;
     opacity: 0.6;
-    /* Low opacity for readability */
-    pointer-events: none;
-    /* Prevent interaction with the canvas */
 }
 
-/* Contact Section Styling (unchanged) */
+/* Contact Section Styling */
 .contact-section {
     background: #1a1a1a;
     padding: clamp(2rem, 5vw, 6rem) 0;
@@ -342,7 +308,7 @@ h1 {
     z-index: 1;
 }
 
-/* Starry Sky Effect (unchanged) */
+/* Starry Sky Effect */
 .contact-section::before {
     content: '';
     position: absolute;
@@ -367,7 +333,6 @@ h1 {
         opacity: 0.3;
     }
 }
-
 
 /* Project Grid Styling */
 .project-grid {
@@ -495,3 +460,41 @@ h1 {
     }
 }
 
+/* Commented out: Fallback spinner and loading text styles */
+/*
+#loading-screen::before {
+    content: '';
+    display: block;
+    width: 40px;
+    height: 40px;
+    border: 4px solid #FACA16;
+    border-top: 4px solid transparent;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    position: absolute;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+#loading-text {
+    position: absolute;
+    bottom: 20px;
+    color: #ffffff;
+    font-size: 1rem;
+    text-align: center;
+    width: 100%;
+    transition: opacity 0.5s ease-out;
+    opacity: 0;
+}
+
+#loading-text.show-fallback {
+    opacity: 1;
+}
+*/
