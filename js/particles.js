@@ -1,19 +1,14 @@
 document.addEventListener("DOMContentLoaded", () => {
     const pageClass = document.body.className || "unknown-page";
     console.log(`[Particles.js] Loaded on page: ${pageClass}`);
-    if (!document.getElementById('loading-screen')) {
-        console.error(`[Particles.js] Loading screen element not found on ${pageClass}`);
-        return;
-    }
 
-    // Defer particle animation until page is interactive
     window.addEventListener('load', () => {
         console.log(`[Particles.js] Window loaded, initializing particles on ${pageClass}`);
-        initParticles();
+        initParticles(pageClass); // Pass pageClass to initParticles
     });
 });
 
-function initParticles() {
+function initParticles(pageClass) {
     const loadingScreen = document.getElementById('loading-screen');
     const canvas = document.createElement('canvas');
     canvas.id = 'particleCanvas';
@@ -35,7 +30,7 @@ function initParticles() {
 
     const renderer = new THREE.WebGLRenderer({ canvas, alpha: true });
     renderer.setSize(canvas.width, canvas.height);
-    console.log("[Particles.js] Renderer initialized");
+    console.log(`[Particles.js] Renderer initialized on ${pageClass}`);
 
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(
@@ -46,16 +41,16 @@ function initParticles() {
     );
     camera.position.set(0, 0, 1.5);
     camera.lookAt(0, 0, 0);
-    console.log("[Particles.js] Camera set up");
+    console.log(`[Particles.js] Camera set up on ${pageClass}`);
 
     const radius = 0.4;
     const particleSizeFactor = 40;
     const particleSize = radius / particleSizeFactor;
-    console.log(`[Particles.js] Sphere radius set to: ${radius}, Particle size set to: ${particleSize}`);
+    console.log(`[Particles.js] Sphere radius set to: ${radius}, Particle size set to: ${particleSize} on ${pageClass}`);
 
     const isMobile = /Mobi|Android/i.test(navigator.userAgent);
     const particleCount = isMobile ? (window.innerWidth <= 360 ? 30 : 50) : 150;
-    console.log(`[Particles.js] Particle count set to: ${particleCount} based on device`);
+    console.log(`[Particles.js] Particle count set to: ${particleCount} based on device on ${pageClass}`);
 
     const particles = new THREE.Group();
     particles.position.set(0, 0, 0);
@@ -81,7 +76,7 @@ function initParticles() {
     }
 
     scene.add(particles);
-    console.log("[Particles.js] Particles created and added to scene");
+    console.log(`[Particles.js] Particles created and added to scene on ${pageClass}`);
 
     function animate() {
         requestAnimationFrame(animate);
@@ -101,7 +96,7 @@ function initParticles() {
     }
 
     animate();
-    console.log("[Particles.js] Animation loop started");
+    console.log(`[Particles.js] Animation loop started on ${pageClass}`);
 
     window.addEventListener("resize", () => {
         const newViewportWidth = window.innerWidth;

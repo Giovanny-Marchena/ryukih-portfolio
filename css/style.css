@@ -139,6 +139,10 @@ body {
     transition: opacity 1s ease-in;
     width: 100%;
     box-sizing: border-box;
+    position: relative;
+    /* Ensure content is above the background */
+    z-index: 10;
+    /* Above the background sphere */
 }
 
 .content.loaded {
@@ -254,7 +258,28 @@ h1 {
     visibility: visible !important;
 }
 
-/* Contact Section Styling */
+/* Background Container and Sphere Styling */
+.background-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 0;
+    /* Lowest layer, part of the background */
+    overflow: hidden;
+}
+
+.background-sphere {
+    width: 100%;
+    height: 100%;
+    opacity: 0.6;
+    /* Low opacity for readability */
+    pointer-events: none;
+    /* Prevent interaction with the canvas */
+}
+
+/* Contact Section Styling (unchanged) */
 .contact-section {
     background: #1a1a1a;
     padding: clamp(2rem, 5vw, 6rem) 0;
@@ -317,7 +342,7 @@ h1 {
     z-index: 1;
 }
 
-/* Starry Sky Effect */
+/* Starry Sky Effect (unchanged) */
 .contact-section::before {
     content: '';
     position: absolute;
@@ -325,11 +350,11 @@ h1 {
     left: 0;
     width: 100%;
     height: 100%;
-    background: url('https: //images.unsplash.com/photo-1568733873715-f9d497a47ea0?q=80&w=3870&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D') repeat;
+    background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAFElEQVQYV2NkYGD4z8DAwMgAAXwKqQ9D5QIDAQPwBwUGAAACYwQ8D4V5ZzgAAAABJRU5ErkJggg==') repeat;
     animation: twinkle 5s infinite;
     opacity: 0.1;
     z-index: 0;
-} 
+}
 
 @keyframes twinkle {
 
