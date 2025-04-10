@@ -1,0 +1,131 @@
+/* CTA Button (used for "View My Projects" and "Get in Touch") */
+.cta-button {
+    position: relative;
+    margin: auto;
+    padding: 12px 18px;
+    transition: all 0.2s ease;
+    border: none;
+    background: none;
+    cursor: pointer;
+}
+
+.cta-button:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: block;
+    border-radius: 50px;
+    background: #5a189a;
+    /* Purple */
+    width: 45px;
+    height: 45px;
+    transition: all 0.3s ease;
+}
+
+.cta-button span {
+    position: relative;
+    font-family: 'Outfit', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    color: #f2cc8f;
+    /* Gold */
+}
+
+.cta-button-icon {
+    position: relative;
+    top: 2px;
+    margin-left: 10px;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke: #f2cc8f;
+    /* Gold */
+    stroke-width: 2;
+}
+
+.cta-button:hover:before {
+    width: 100%;
+    background: #fb6107;
+    /* Orange on hover */
+}
+
+.cta-button:hover .cta-button-icon {
+    stroke: #f2cc8f;
+    /* Keep the arrow gold for contrast */
+}
+
+.cta-button:hover span {
+    color: #ffffff;
+    /* White on hover for better contrast */
+}
+
+.cta-button:active {
+    transform: scale(0.95);
+}
+
+/* Nav Button (used for "Read More" and "Back to Home" buttons) */
+.nav-button {
+    position: relative;
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: transparent;
+    border: 2px solid #ff00ff;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.nav-button-box {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.nav-button-elem {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.nav-button-elem svg {
+    width: 20px;
+    height: 20px;
+    fill: #ff00ff;
+    transition: fill 0.3s ease;
+}
+
+.nav-button-elem:first-child {
+    transform: translateX(0);
+}
+
+.nav-button-elem:last-child {
+    transform: translateX(100%);
+}
+
+.nav-button:hover {
+    border-color: #f2cc8f;
+    box-shadow: 0 0 10px #f2cc8f;
+}
+
+.nav-button:hover .nav-button-elem:first-child {
+    transform: translateX(-100%);
+}
+
+.nav-button:hover .nav-button-elem:last-child {
+    transform: translateX(0);
+}
+
+.nav-button:hover .nav-button-elem svg {
+    fill: #f2cc8f;
+}
