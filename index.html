@@ -2,40 +2,246 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Cache-Control" content="public, max-age=3600">
-    <title>Under Construction</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
-    <!-- Define the import map for Three.js and OrbitControls -->
-    <script type="importmap">
-      {
-        "imports": {
-          "three": "https://cdn.jsdelivr.net/npm/three@0.174.0/build/three.module.js",
-          "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.174.0/examples/jsm/"
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ryukih</title>
+  <link rel="icon" href="src/assets/favicon.webp" type="image/webp">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Poppins&display=swap"
+    rel="stylesheet">
+  <style>
+    .navbar {
+      background: transparent;
+      backdrop-filter: blur(5px);
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 2rem;
+      z-index: 100;
+      opacity: 0;
+      animation: fadeIn 1s ease-out forwards;
+      min-height: 60px
+    }
+
+    .hamburger {
+      display: none
+    }
+
+    .hamburger .bar {
+      display: block;
+      width: 25px;
+      height: 3px;
+      background: #ff00ff;
+      margin: 5px 0;
+      transition: all .3s ease
+    }
+
+    .hamburger.active .bar:nth-child(2) {
+      opacity: 0
+    }
+
+    .hamburger.active .bar:nth-child(1) {
+      transform: translateY(8px) rotate(45deg)
+    }
+
+    .hamburger.active .bar:nth-child(3) {
+      transform: translateY(-8px) rotate(-45deg)
+    }
+
+    .navbar-logo {
+      font-size: 1.5rem;
+      max-width: 150px;
+      margin-right: 0.5rem
+    }
+
+    .logo-img {
+      height: 40px;
+      width: auto;
+      max-width: 100%
+    }
+
+    .navbar-links {
+      display: flex;
+      gap: .3rem;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      flex-wrap: nowrap;
+      justify-content: flex-end
+    }
+
+    .hero {
+      height: 100vh;
+      margin-top: 0;
+      padding-top: 60px;
+      background: #023047;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      transition: background .5s ease;
+      z-index: 1;
+      box-sizing: border-box
+    }
+
+    .hero-text {
+      color: #FDB084;
+      font-size: calc(2rem + 2vw);
+      font-weight: 700;
+      text-align: center;
+      opacity: 0;
+      text-shadow: 0 0 5px #023047, 0 0 10px #023047;
+      animation: slideFade 1.5s ease-out forwards;
+      max-width: 80%
+    }
+
+    @keyframes fadeIn {
+      to {
+        opacity: 1
       }
-    </script>
+    }
+
+    @keyframes slideFade {
+      from {
+        opacity: 0;
+        transform: translateY(20px)
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0)
+      }
+    }
+  </style>
+  <link rel="stylesheet" href="src/style.css" media="print" onload="this.media='all'">
 </head>
 
 <body>
-    <div class="container">
-        <div class="logo-top">
-            <picture>
-                <source srcset="assets/logo.webp" type="image/webp">
-                <img src="assets/logo.jpg" alt="Logo" class="logo"
-                    onerror="this.src='assets/logo.jpg'; console.log('WebP failed, falling back to JPG for logo');">
-            </picture>
-        </div>
-        <h1 class="glow-text">Under Construction</h1>
-        <p>We're working hard to bring you something amazing!</p>
-        <div id="canvas-container"></div>
-        <footer class="footer">
-            <p>RyuKih.com is constructing<span class="dots">...</span></p>
-        </footer>
+  <nav class="navbar">
+    <div class="navbar-logo">
+      <a href="/">
+        <img src="src/assets/logo.webp" alt="Ryukih Logo" class="logo-img">
+      </a>
     </div>
-    <script type="module" src="js/script.js"></script>
+    <div class="hamburger">
+      <span class="bar"></span>
+      <span class="bar"></span>
+      <span class="bar"></span>
+    </div>
+    <ul class="navbar-links">
+      <li class="nav-item">
+        <a href="/" class="nav-link active">Home</a>
+        <ul class="dropdown">
+          <li><a href="/welcome" class="dropdown-link">Welcome</a></li>
+          <li><a href="/overview" class="dropdown-link">Overview</a></li>
+          <li><a href="/highlights" class="dropdown-link">Highlights</a></li>
+          <li><a href="/" class="dropdown-link see-more">See More</a></li>
+        </ul>
+      </li>
+      <li class="nav-item">
+        <a href="/mind" class="nav-link">Mind</a>
+        <ul class="dropdown">
+          <li><a href="/pathfinding-visualizer" class="dropdown-link">Pathfinding Visualizer</a></li>
+          <li><a href="/ai-experiments" class="dropdown-link">AI Experiments</a></li>
+          <li><a href="/code-puzzles" class="dropdown-link">Code Puzzles</a></li>
+          <li><a href="/mind" class="dropdown-link see-more">See More</a></li>
+        </ul>
+      </li>
+      <li class="nav-item">
+        <a href="/builds" class="nav-link">Builds</a>
+        <ul class="dropdown">
+          <li><a href="/project-1" class="dropdown-link">Project 1</a></li>
+          <li><a href="/project-2" class="dropdown-link">Project 2</a></li>
+          <li><a href="/project-3" class="dropdown-link">Project 3</a></li>
+          <li><a href="/builds" class="dropdown-link see-more">See More</a></li>
+        </ul>
+      </li>
+      <li class="nav-item">
+        <a href="/insights" class="nav-link">Insights</a>
+        <ul class="dropdown">
+          <li><a href="/low-level-love" class="dropdown-link">Low-Level Love</a></li>
+          <li><a href="/ai-future" class="dropdown-link">AI Future</a></li>
+          <li><a href="/systems-101" class="dropdown-link">Systems 101</a></li>
+          <li><a href="/insights" class="dropdown-link see-more">See More</a></li>
+        </ul>
+      </li>
+      <li class="nav-item">
+        <a href="/connect" class="nav-link">Connect</a>
+        <ul class="dropdown">
+          <li><a href="/contact-form" class="dropdown-link">Contact Form</a></li>
+          <li><a href="/github" class="dropdown-link">GitHub</a></li>
+          <li><a href="/linkedin" class="dropdown-link">LinkedIn</a></li>
+          <li><a href="/connect" class="dropdown-link see-more">See More</a></li>
+        </ul>
+      </li>
+      <li class="nav-item">
+        <a href="/core" class="nav-link">Core</a>
+        <ul class="dropdown">
+          <li><a href="/logo" class="dropdown-link">Logo</a></li>
+          <li><a href="/who-i-am" class="dropdown-link">Who I Am</a></li>
+          <li><a href="/skills" class="dropdown-link">Skills</a></li>
+          <li><a href="/resume" class="dropdown-link">Resume</a></li>
+          <li><a href="/core" class="dropdown-link see-more">See More</a></li>
+        </ul>
+      </li>
+    </ul>
+  </nav>
+  <section class="hero" id="hero">
+    <h1 class="hero-text">Crafting solutions with algorithms & hardware</h1>
+  </section>
+  <section class="featured-projects">
+    <h2 class="section-title">Featured Projects</h2>
+    <div class="carousel">
+      <div class="carousel-item project-1 active">
+        <img src="src/assets/project1.jpg" alt="Project 1" loading="lazy">
+        <h3 class="project-title">Project 1 | AI</h3>
+        <p class="project-tag">Machine Learning</p>
+      </div>
+      <div class="carousel-item project-2">
+        <img src="src/assets/project2.jpg" alt="Project 2" loading="lazy">
+        <h3 class="project-title">Project 2 | Algorithms</h3>
+        <p class="project-tag">Pathfinding</p>
+      </div>
+      <button class="carousel-arrow left">←</button>
+      <button class="carousel-arrow right">→</button>
+    </div>
+  </section>
+  <section class="about-me">
+    <h2 class="about-text">I’m hooked on algorithms & hardware</h2>
+    <a href="/core" class="learn-more">Learn More</a>
+  </section>
+  <footer class="footer">
+    <div class="social-links">
+      <a href="https://github.com" target="_blank" class="social-icon github">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#f2cc8f" stroke-width="2">
+          <path
+            d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22">
+          </path>
+        </svg>
+      </a>
+      <a href="https://linkedin.com" target="_blank" class="social-icon linkedin">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#f2cc8f" stroke-width="2">
+          <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+          <rect x="2" y="9" width="4" height="12"></rect>
+          <circle cx="4" cy="4" r="2"></circle>
+        </svg>
+      </a>
+      <a href="https://x.com" target="_blank" class="social-icon x">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#f2cc8f" stroke-width="2">
+          <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+        </svg>
+      </a>
+    </div>
+    <p class="copyright">© 2025 Ryukih</p>
+  </footer>
+  <script type="module" src="src/main.js" defer></script>
 </body>
 
 </html>
