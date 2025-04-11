@@ -1,6 +1,8 @@
 import * as THREE from '/node_modules/three/build/three.module.js';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { gsap } from '/node_modules/gsap/dist/gsap.js'; // Updated path
+import { ScrollTrigger } from '/node_modules/gsap/dist/ScrollTrigger.js'; // Updated path
+
+// Rest of your code remains the same
 
 // Register ScrollTrigger with GSAP
 gsap.registerPlugin(ScrollTrigger);
