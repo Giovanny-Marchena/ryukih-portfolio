@@ -1,7 +1,6 @@
 import * as THREE from 'three';
-import { gsap } from 'gsap'; // Use the module specifier
-import { ScrollTrigger } from 'gsap/ScrollTrigger'; // Use the module specifier
-
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 // Register ScrollTrigger with GSAP
 gsap.registerPlugin(ScrollTrigger);
@@ -70,6 +69,17 @@ const particleMaterial = new THREE.ShaderMaterial({
 
 const particleSystem = new THREE.Points(particles, particleMaterial);
 scene.add(particleSystem);
+
+// Hide the loading screen after the scene is ready
+const loadingScreen = document.getElementById('loading-screen');
+gsap.to(loadingScreen, {
+    opacity: 0,
+    duration: 0.5,
+    delay: 1,
+    onComplete: () => {
+        loadingScreen.classList.add('hidden');
+    },
+});
 
 // Mouse Interactivity
 const mouse = new THREE.Vector2();
