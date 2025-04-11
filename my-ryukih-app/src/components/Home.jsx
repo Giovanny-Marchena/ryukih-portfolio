@@ -1,5 +1,10 @@
+// src/components/Home.jsx
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import useImagePath from '../hooks/useImagePath';
+import fallbackImage from '../assets/fallback-image.png';
+import Hero from './Hero';
+import FeaturedProjects from './FeaturedProjects';
 
 const Home = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -8,11 +13,27 @@ const Home = () => {
         setIsMenuOpen(!isMenuOpen);
     };
 
+    const logo = useImagePath('/assets/logo', fallbackImage);
+
+    const handleImageError = (e) => {
+        e.target.src = fallbackImage;
+    };
+
     return (
         <div className="min-h-screen bg-[#1b2a33] text-[#f2cc8f] font-['Outfit'] w-full">
+            {/* Hero Section */}
+            <Hero />
+
             {/* Navigation */}
-            <nav className="p-4">
-                {/* Hamburger Icon (Visible on Mobile) */}
+            <nav className="p-4 flex items-center justify-between">
+                <div className="flex items-center">
+                    <img
+                        src={logo}
+                        alt="Logo"
+                        className="h-10 md:h-12"
+                        onError={handleImageError}
+                    />
+                </div>
                 <div className="md:hidden flex justify-end">
                     <button onClick={toggleMenu} className="text-[#fb6107] focus:outline-none">
                         <svg
@@ -31,8 +52,6 @@ const Home = () => {
                         </svg>
                     </button>
                 </div>
-
-                {/* Navigation Links */}
                 <div
                     className={`${isMenuOpen ? 'flex' : 'hidden'
                         } md:flex flex-col md:flex-row md:justify-end space-y-4 md:space-y-0 md:space-x-4 md:space-x-6 text-sm md:text-base absolute md:static top-12 right-4 bg-[#1b2a33] md:bg-transparent p-4 md:p-0 rounded-lg md:rounded-none z-10`}
@@ -124,6 +143,9 @@ const Home = () => {
                     </div>
                 </div>
             </section>
+
+            {/* Featured Projects Section */}
+            <FeaturedProjects />
 
             {/* Contact Me Section */}
             <section className="p-4 md:p-8">

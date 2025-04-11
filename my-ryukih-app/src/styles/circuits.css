@@ -1,9 +1,13 @@
+/* src/styles/circuits.css */
 .circuits-background {
     position: absolute;
-    inset: 0;
-    background: url('/assets/circuits-pattern.png') repeat;
-    opacity: 0.3;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, rgba(251, 97, 7, 0.1) 0%, transparent 70%);
     z-index: 10;
+    pointer-events: none;
 }
 
 .animate-fadeIn {

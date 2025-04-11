@@ -17,10 +17,9 @@ import Connect from './components/Connect.jsx';
 import Core from './components/Core.jsx';
 import SubPage from './components/SubPage.jsx';
 import Loader from './components/Loader.jsx';
+import NotFound from './components/NotFound.jsx';
+import UnderConstruction from './components/UnderConstruction.jsx';
 import './styles/index.css';
-// import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Home from './components/Home'; // Example: Your homepage component
-import NotFound from './components/NotFound'; // The 404 component you created
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -35,7 +34,7 @@ function App() {
 
   return (
     <Router>
-      <div className="relative min-h-screen">
+      <div className="min-h-screen">
         {isLoading ? (
           <div className="fixed inset-0 flex items-center justify-center bg-[#023047] z-[200]">
             <Loader />
@@ -43,38 +42,36 @@ function App() {
         ) : (
           <>
             <Navbar />
-              <Routes>
-                <Route
-                  path="/"
-                  element={
-                    <>
-                      <Hero />
-                      <FeaturedProjects />
-                      <AboutMe />
-                      <Skills />
-                      <Blog />
-                      <Contact />
-                      <Footer />
-                    </>
-                  }
-                />
-
-              <Route path="/" element={<Home />} />
+            <Routes>
+              <Route
+                path="/"
+                element={
+                  <>
+                    <Hero />
+                    <FeaturedProjects />
+                    <AboutMe />
+                    <Skills />
+                    <Blog />
+                    <Contact />
+                  </>
+                }
+              />
               <Route path="/project1" element={<ProjectPage projectId="project1" />} />
               <Route path="/project2" element={<ProjectPage projectId="project2" />} />
               <Route path="/project3" element={<ProjectPage projectId="project3" />} />
               <Route path="/project4" element={<ProjectPage projectId="project4" />} />
               <Route path="/blog/:postId" element={<BlogPost />} />
               <Route path="/mind" element={<Mind />} />
-              <Route path="/builds" element={<Builds />} />
-              <Route path="/insights" element={<Insights />} />
-              <Route path="/connect" element={<Connect />} />
-              <Route path="/core" element={<Core />} />
-              <Route path="/:page/sub1" element={<SubPage />} />
-              <Route path="/:page/sub2" element={<SubPage />} />
-              <Route path="/:page/seemore" element={<SubPage />} />
+              <Route path="/builds" element={<UnderConstruction />} />
+              <Route path="/insights" element={<UnderConstruction />} />
+              <Route path="/connect" element={<UnderConstruction />} />
+              <Route path="/core" element={<UnderConstruction />} />
+              <Route path="/:page/sub1" element={<UnderConstruction />} />
+              <Route path="/:page/sub2" element={<UnderConstruction />} />
+              <Route path="/:page/seemore" element={<UnderConstruction />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
+            <Footer /> {/* Moved outside Routes to render on all pages */}
           </>
         )}
       </div>

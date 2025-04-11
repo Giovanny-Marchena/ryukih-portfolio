@@ -1,17 +1,19 @@
+// src/components/FeaturedProjects.jsx
 import React, { useEffect, useMemo } from 'react';
 import Splide from '@splidejs/splide';
 import { AutoScroll } from '@splidejs/splide-extension-auto-scroll';
 import useProjectImages from '../hooks/useProjectImages.jsx';
 import { Link } from 'react-router-dom';
 import '@splidejs/splide/dist/css/splide.min.css';
+import fallbackImage from '../assets/fallback-image.png';
 
 const FeaturedProjects = () => {
     const projectsData = useMemo(() => [
-        { title: 'Project 1 | AI', tag: 'Machine Learning', baseImagePath: '/assets/project1', slug: 'project1', fallbackImage: 'https://placehold.co/800x400?text=Project+1' },
-        { title: 'Project 2 | Algorithms', tag: 'Pathfinding', baseImagePath: '/assets/project2', slug: 'project2', fallbackImage: 'https://placehold.co/800x400?text=Project+2' },
-        { title: 'Project 3 | Data Analysis', tag: 'Big Data', baseImagePath: '/assets/project3', slug: 'project3', fallbackImage: 'https://placehold.co/800x400?text=Project+3' },
-        { title: 'Project 4 | Web Dev', tag: 'Full Stack', baseImagePath: '/assets/project4', slug: 'project4', fallbackImage: 'https://placehold.co/800x400?text=Project+4' },
-    ], []); // Empty dependency array ensures the array is created only once
+        { title: 'Project 1 | AI', tag: 'Machine Learning', baseImagePath: '/assets/project1', slug: 'project1' },
+        { title: 'Project 2 | Algorithms', tag: 'Pathfinding', baseImagePath: '/assets/project2', slug: 'project2' },
+        { title: 'Project 3 | Data Analysis', tag: 'Big Data', baseImagePath: '/assets/project3', slug: 'project3' },
+        { title: 'Project 4 | Web Dev', tag: 'Full Stack', baseImagePath: '/assets/project4', slug: 'project4' },
+    ], []);
 
     const projects = useProjectImages(projectsData);
 
@@ -20,7 +22,7 @@ const FeaturedProjects = () => {
 
         const splide = new Splide('.splide', {
             type: 'loop',
-            padding: '5rem',
+            padding: '1rem',
             pagination: false,
             arrows: true,
             perPage: 1,
@@ -35,15 +37,15 @@ const FeaturedProjects = () => {
             },
             breakpoints: {
                 640: {
-                    padding: '1rem',
-                    gap: '0.5rem',
+                    padding: '2rem',
+                    gap: '1.5rem',
                 },
                 768: {
-                    padding: '2rem',
-                    gap: '1rem',
+                    padding: '3rem',
+                    gap: '2rem',
                 },
                 1024: {
-                    padding: '3rem',
+                    padding: '5rem',
                 },
             },
         });
@@ -69,20 +71,20 @@ const FeaturedProjects = () => {
                             {projects.map((project, index) => (
                                 <li key={index} className="splide__slide">
                                     <Link to={`/${project.slug}`} className="block relative group">
-                                        <div className="relative w-full h-[250px] sm:h-[300px] md:h-[350px] lg:h-[400px] overflow-hidden rounded-lg">
+                                        <div className="relative w-full h-[200px] sm:h-[250px] md:h-[300px] lg:h-[350px] overflow-hidden rounded-lg">
                                             <img
                                                 src={project.image}
                                                 alt={project.title}
                                                 className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                                                 onError={(e) => {
-                                                    e.target.src = '/assets/fallback-image.png';
+                                                    e.target.src = fallbackImage;
                                                 }}
                                             />
                                             <div className="absolute bottom-0 left-0 w-full bg-gradient-to-t from-[#023047]/80 to-transparent flex flex-col justify-end p-4 transition-opacity duration-300 group-hover:from-[#023047]/60 group-hover:shadow-[0_0_15px_#fb6107]">
-                                                <h3 className="text-[#FC6D1A] text-lg sm:text-xl md:text-2xl lg:text-3xl font-['Outfit'] font-bold">
+                                                <h3 className="text-[#fb6107] text-base sm:text-lg md:text-xl lg:text-2xl font-['Outfit'] font-bold">
                                                     {project.title}
                                                 </h3>
-                                                <p className="text-[#f2cc8f] font-['Outfit'] text-base sm:text-lg md:text-xl font-medium">
+                                                <p className="text-[#f2cc8f] font-['Outfit'] text-sm sm:text-base md:text-lg font-medium">
                                                     {project.tag}
                                                 </p>
                                             </div>

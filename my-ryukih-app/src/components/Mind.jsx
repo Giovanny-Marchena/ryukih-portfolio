@@ -1,39 +1,100 @@
+// src/components/Mind.jsx
 import React from 'react';
-import { Link } from 'react-router-dom';
-import '../styles/buttons.css';
+import { ReactTyped } from 'react-typed';
 
 const Mind = () => {
   return (
-    <div className="min-h-screen bg-[#023047] text-[#f2cc8f] pt-[60px] pb-16">
-      <div className="max-w-5xl mx-auto px-4">
-        <Link to="/" className="inline-block mb-8 opacity-0 animate-fadeIn">
-          <button className="nav-button">
-            <div className="nav-button-box">
-              <span className="nav-button-elem">
-                <svg viewBox="0 0 46 40" xmlns="http://www.w3.org/2000/svg">
-                  <path
-                    d="M46 20.038c0-.7-.3-1.5-.8-2.1l-16-17c-1.1-1-3.2-1.4-4.4-.3-1.2 1.1-1.2 3.3 0 4.4l11.3 11.9H3c-1.7 0-3 1.3-3 3s1.3 3 3 3h33.1l-11.3 11.9c-1 1-1.2 3.3 0 4.4 1.2 1.1 3.3.8 4.4-.3l16-17c.5-.5.8-1.1.8-1.9z"
-                  ></path>
-                </svg>
-              </span>
-              <span className="nav-button-elem">
-                <svg viewBox="0 0 46 40">
-                  <path
-                    d="M46 20.038c0-.7-.3-1.5-.8-2.1l-16-17c-1.1-1-3.2-1.4-4.4-.3-1.2 1.1-1.2 3.3 0 4.4l11.3 11.9H3c-1.7 0-3 1.3-3 3s1.3 3 3 3h33.1l-11.3 11.9c-1 1-1.2 3.3 0 4.4 1.2 1.1 3.3.8 4.4-.3l16-17c.5-.5.8-1.1.8-1.9z"
-                  ></path>
-                </svg>
-              </span>
-            </div>
-          </button>
-        </Link>
-        <h1 className="text-[#FC6D1A] text-3xl md:text-5xl font-['Outfit'] font-bold mb-8 opacity-0 animate-fadeIn">
-          Mind
-        </h1>
-        <p className="text-[#f2cc8f] font-['Outfit'] text-base md:text-lg leading-relaxed opacity-0 animate-fadeIn animation-delay-300">
-          Explore my thoughts, ideas, and insights on technology, AI, and innovation.
+    <section className="relative min-h-screen w-full flex flex-col items-center justify-center text-center overflow-hidden">
+      {/* Video Background */}
+      <video
+        autoPlay
+        loop
+        muted
+        playsInline
+        className="absolute inset-0 w-full h-full object-cover z-0"
+      >
+        <source src="/assets/hero-bg.mp4" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+      <div className="absolute inset-0 bg-[#023047]/70 z-[5]"></div>
+      <div className="circuits-background z-[10]"></div>
+
+      {/* Content */}
+      <div className="relative z-[20] px-4 py-12">
+        {/* Title */}
+        <ReactTyped
+          strings={['Mind: Your Intellectual CS Side']}
+          typeSpeed={50}
+          className="text-[#fb6107] text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-['Outfit'] font-bold mb-4 opacity-0 animate-fadeIn"
+        />
+
+        {/* Subtitle */}
+        <p className="text-[#f2cc8f] text-base sm:text-lg md:text-xl lg:text-2xl font-['Outfit'] font-medium mb-12 opacity-0 animate-fadeIn animation-delay-300">
+          Algorithms, AI, Problem-Solving
         </p>
+
+        {/* Projects Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+          {/* Pathfinding Visualizer */}
+          <div className="bg-[#023047]/90 p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
+            <h3 className="text-[#fb6107] text-xl font-['Outfit'] font-bold mb-2">
+              Pathfinding Visualizer
+            </h3>
+            <p className="text-[#f2cc8f] text-sm font-['Outfit'] mb-4">
+              An interactive tool to visualize pathfinding algorithms like A*, Dijkstra’s, and BFS on a grid.
+            </p>
+            <a
+              href="#"
+              className="text-[#fb6107] hover:text-[#f2cc8f] font-['Outfit'] font-medium transition-colors duration-300"
+            >
+              Explore Project
+            </a>
+          </div>
+
+          {/* AI Experiments */}
+          <div className="bg-[#023047]/90 p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
+            <h3 className="text-[#fb6107] text-xl font-['Outfit'] font-bold mb-2">
+              AI Experiments
+            </h3>
+            <p className="text-[#f2cc8f] text-sm font-['Outfit'] mb-4">
+              A collection of experiments with machine learning models, neural networks, and generative AI.
+            </p>
+            <a
+              href="#"
+              className="text-[#fb6107] hover:text-[#f2cc8f] font-['Outfit'] font-medium transition-colors duration-300"
+            >
+              Explore Project
+            </a>
+          </div>
+
+          {/* Code Puzzles */}
+          <div className="bg-[#023047]/90 p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
+            <h3 className="text-[#fb6107] text-xl font-['Outfit'] font-bold mb-2">
+              Code Puzzles
+            </h3>
+            <p className="text-[#f2cc8f] text-sm font-['Outfit'] mb-4">
+              Challenging coding puzzles to test your problem-solving skills and algorithmic thinking.
+            </p>
+            <a
+              href="#"
+              className="text-[#fb6107] hover:text-[#f2cc8f] font-['Outfit'] font-medium transition-colors duration-300"
+            >
+              Explore Project
+            </a>
+          </div>
+        </div>
+
+        {/* See More Button */}
+        <div className="mt-12">
+          <a
+            href="#"
+            className="inline-block bg-[#fb6107] text-white font-['Outfit'] font-medium text-lg px-6 py-3 rounded-full hover:bg-[#f2cc8f] hover:text-[#023047] transition-all duration-300"
+          >
+            See More
+          </a>
+        </div>
       </div>
-    </div>
+    </section>
   );
 };
 
