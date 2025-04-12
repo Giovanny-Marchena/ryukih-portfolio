@@ -1,11 +1,10 @@
-import express from 'express';
-import Project from '../models/Project';
+import { Router } from 'express';
 
-const router = express.Router();
+const router = Router();
 
-router.get('/', async (req, res) => {
-    const projects = await Project.find();
-    res.json(projects);
+
+router.get('/', (req, res) => {
+    res.send('Projects route');
 });
 
 export default router;
