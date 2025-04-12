@@ -1,0 +1,13 @@
+# Normalize all text files to LF
+* text=auto eol=lf
+
+# Ensure specific files (like scripts) use LF
+*.ts text eol=lf
+*.tsx text eol=lf
+*.js text eol=lf
+*.css text eol=lf
+*.json text eol=lf
+
+# Binary files should not be modified
+*.png binary
+*.jpg binary
