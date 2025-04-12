@@ -13,7 +13,8 @@ export default function ProjectsPage() {
     const [projects, setProjects] = useState<Project[]>([]);
 
     useEffect(() => {
-        fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/projects`) // Use your domain in production
+        fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/projects`) 
+        // fetch('https://api.ryukih.com/api/projects')
             .then(res => res.json())
             .then(data => setProjects(data))
             .catch(err => console.error(err));
