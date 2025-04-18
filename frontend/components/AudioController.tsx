@@ -1,34 +1,26 @@
-// components/AudioController.tsx
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { usePathname } from 'next/navigation';
-import { motion } from 'framer-motion';
-import { Pause, Play } from 'lucide-react';
 
-export let currentBeat: number = 0;
+type AudioControllerProps = {
+    isNight: boolean;
+};
 
-interface AudioControllerProps {
-    nightMode?: boolean;
-}
+export let currentBeat = 0;
 
-export default function AudioController({ nightMode = false }: AudioControllerProps) {
+export default function AudioController({ isNight }: AudioControllerProps) {
     const audioRef = useRef<HTMLAudioElement>(null);
-    const [isPlaying, setIsPlaying] = useState(true);
-    const pathname = usePathname();
+    const isPlayingRef = useRef(true);
+    const [autoplayBlocked, setAutoplayBlocked] = useState(false);
 
-    const audioSrc = (() => {
-        if (nightMode) return '/sakura-night.mp3';
-        if (pathname === '/') return '/sakura-music.mp3';
-        if (pathname.startsWith('/projects')) return '/tech-ambient.mp3';
-        if (pathname.startsWith('/labs')) return '/glitchy-lab.mp3';
-        if (pathname.startsWith('/contact')) return '/wind-chimes.mp3';
-        return '/sakura-music.mp3';
-    })();
+    const audioSrc = isNight ? '/sakura-night.mp3' : '/sakura-music.mp3';
 
+    // 🔊 Smooth volume fade
     const fadeVolume = (target: number, duration: number) => {
-        if (!audioRef.current) return;
-        const start = audioRef.current.volume;
+        const audio = audioRef.current;
+        if (!audio) return;
+
+        const start = audio.volume;
         const steps = 20;
         const stepTime = duration / steps;
         let step = 0;
@@ -36,11 +28,38 @@ export default function AudioController({ nightMode = false }: AudioControllerPr
         const fade = setInterval(() => {
             step++;
             const newVol = start + (target - start) * (step / steps);
-            audioRef.current!.volume = Math.max(0, Math.min(1, newVol));
+            audio.volume = Math.max(0, Math.min(1, newVol));
             if (step >= steps) clearInterval(fade);
         }, stepTime);
     };
 
+    // ✅ Play handler (used on load + retry)
+    const tryPlay = async () => {
+        const audio = audioRef.current;
+        if (!audio) return;
+
+        try {
+            await audio.play();
+            isPlayingRef.current = true;
+            setAutoplayBlocked(false);
+        } catch (err) {
+            console.warn('Autoplay blocked:', err);
+            setAutoplayBlocked(true); // Show retry button
+        }
+    };
+
+    // 🔁 Autoplay + handle source change
+    useEffect(() => {
+        const audio = audioRef.current;
+        if (!audio) return;
+
+        audio.pause();
+        audio.load();
+
+        tryPlay();
+    }, [audioSrc]);
+
+    // 🕶️ Volume fade on tab visibility
     useEffect(() => {
         const handleVisibility = () => {
             if (document.visibilityState === 'hidden') {
@@ -54,42 +73,18 @@ export default function AudioController({ nightMode = false }: AudioControllerPr
         return () => document.removeEventListener('visibilitychange', handleVisibility);
     }, []);
 
+    // 🎧 Beat detection using Web Audio API
     useEffect(() => {
-        if (!audioRef.current) return;
-        audioRef.current.pause();
-        audioRef.current.load();
+        const audio = audioRef.current;
+        if (!audio) return;
 
-        const tryPlay = async () => {
-            try {
-                await audioRef.current?.play();
-                setIsPlaying(true);
-            } catch (err) {
-                console.warn('Autoplay failed:', err);
-                setIsPlaying(false);
-            }
-        };
-
-        tryPlay();
-    }, [audioSrc]);
-
-    const togglePlay = () => {
-        if (!audioRef.current) return;
-        if (isPlaying) {
-            audioRef.current.pause();
-            setIsPlaying(false);
-        } else {
-            audioRef.current.play().catch((err) => console.warn('Play failed:', err));
-            setIsPlaying(true);
-        }
-    };
-
-    useEffect(() => {
-        if (!audioRef.current) return;
         const AudioContextClass =
-            window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
+            window.AudioContext ||
+            (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
+
         const audioCtx = new AudioContextClass();
         const analyser = audioCtx.createAnalyser();
-        const source = audioCtx.createMediaElementSource(audioRef.current);
+        const source = audioCtx.createMediaElementSource(audio);
         source.connect(analyser);
         analyser.connect(audioCtx.destination);
         analyser.fftSize = 64;
@@ -107,27 +102,16 @@ export default function AudioController({ nightMode = false }: AudioControllerPr
 
     return (
         <>
-            <audio ref={audioRef} src={audioSrc} autoPlay loop />
+            <audio ref={audioRef} src={audioSrc} autoPlay loop className="hidden" />
 
-            <motion.button
-                onClick={togglePlay}
-                className="group fixed bottom-6 right-6 bg-sand-200 hover:bg-sand-300 text-sand-800 p-3 rounded-full shadow-lg z-50 transition-transform hover:scale-110"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 1 }}
-                aria-label="Toggle background audio"
-            >
-                <span className="sr-only">{isPlaying ? 'Pause audio' : 'Play audio'}</span>
-                <motion.div
-                    animate={{ rotate: isPlaying ? 0 : 360 }}
-                    transition={{ duration: 0.6, ease: 'easeInOut' }}
+            {autoplayBlocked && (
+                <button
+                    onClick={tryPlay}
+                    className="fixed bottom-6 right-6 z-50 px-4 py-2 bg-black/70 text-white rounded-full backdrop-blur-md hover:bg-black transition"
                 >
-                    {isPlaying ? <Pause size={20} /> : <Play size={20} />}
-                </motion.div>
-                <span className="absolute bottom-full right-1/2 translate-x-1/2 mb-2 px-2 py-1 text-xs rounded bg-black text-white opacity-0 group-hover:opacity-100 transition">
-                    {isPlaying ? 'Pause Music' : 'Play Music'}
-                </span>
-            </motion.button>
+                    🔊 Start Audio
+                </button>
+            )}
         </>
     );
 }
