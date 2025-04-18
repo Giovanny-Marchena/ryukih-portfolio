@@ -1,17 +1,45 @@
+'use client';
+
+import { memo } from 'react';
+import { motion } from 'framer-motion';
+
 type ProjectProps = {
     title: string;
     description: string;
     tech: string[];
 };
 
-export default function ProjectCard({ title, description, tech }: ProjectProps) {
+const ProjectCard: React.FC<ProjectProps> = ({ title, description, tech }) => {
     return (
-        <div className="bg-gray-900 border border-cyan-500 rounded-lg p-6 shadow-md hover:shadow-xl transition">
-            <h2 className="text-xl font-bold text-cyan-400 mb-2">{title}</h2>
-            <p className="text-gray-300 mb-3">{description}</p>
-            <div className="text-sm text-gray-400">
-                {tech.join(', ')}
+        <motion.div
+            className="bg-black/10 backdrop-blur-md rounded-lg p-6 border border-white/20 shadow-lg hover:shadow-xl transition-all duration-300"
+            whileHover={{ scale: 1.02, y: -4 }}
+            transition={{ type: 'spring', stiffness: 200, damping: 20 }}
+            role="article"
+            aria-labelledby={`project-${title}-title`}
+        >
+            <h2
+                id={`project-${title}-title`}
+                className="text-2xl font-semibold tracking-wide mb-4"
+            >
+                {title}
+            </h2>
+            <p className="text-base mb-4">{description}</p>
+            <div className="flex flex-wrap gap-2">
+                {tech.map((item, index) => (
+                    <motion.span
+                        key={`${item}-${index}`}
+                        className="inline-block bg-white/10 text-sand-600 text-sm px-2 py-1 rounded"
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ delay: index * 0.05, duration: 0.3 }}
+                    >
+                        {item}
+                    </motion.span>
+                ))}
             </div>
-        </div>
+        </motion.div>
     );
-}
+};
+
+export default memo(ProjectCard);

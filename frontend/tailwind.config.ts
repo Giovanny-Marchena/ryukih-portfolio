@@ -1,5 +1,3 @@
-// tailwind.config.ts
-
 import type { Config } from 'tailwindcss';
 
 const config: Config = {
@@ -23,6 +21,7 @@ const config: Config = {
                     800: '#603808',
                     900: '#583101',
                 },
+                gold: '#C1A75F',
             },
         },
     },

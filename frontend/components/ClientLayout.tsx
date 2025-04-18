@@ -1,15 +1,20 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import Navbar from '@/components/Navbar';
-import AudioController from '@/components/AudioController';
-import NightToggle from '@/components/NightToggle';
-import SakuraBackground from '@/components/SakuraBackground';
-import BackToTopButton from '@/components/BackToTopButton';
+import { useEffect, useState, memo } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
+import { usePathname } from 'next/navigation';
+import Navbar from '@/components/Navbar';
+import SakuraBackground from '@/components/SakuraBackground';
+import AudioController from '@/components/AudioController';
+import BackToTopButton from '@/components/BackToTopButton';
 
-export default function ClientLayout({ children }: { children: React.ReactNode }) {
-    const [isNight, setIsNight] = useState(false);
+interface ClientLayoutProps {
+    children: React.ReactNode;
+}
+
+const ClientLayout: React.FC<ClientLayoutProps> = ({ children }) => {
+    const [isNight, setIsNight] = useState<boolean>(false);
+    const pathname = usePathname();
 
     useEffect(() => {
         const stored = localStorage.getItem('night-mode');
@@ -23,48 +28,53 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
 
     useEffect(() => {
         localStorage.setItem('night-mode', String(isNight));
+        document.documentElement.classList.toggle('night-mode', isNight);
     }, [isNight]);
 
     return (
         <>
             <SakuraBackground isNight={isNight} />
-            <Navbar isNight={isNight} onToggle={() => setIsNight(!isNight)} />
+            <Navbar isNight={isNight} onToggle={() => setIsNight((prev) => !prev)} />
 
-            {/* Fixed button container (mobile) */}
-            {/* <div className="fixed top-4 right-4 z-[9999] md:hidden flex flex-col items-end gap-2">
-                <NightToggle isNight={isNight} onToggle={() => setIsNight(!isNight)} />
-            </div> */}
-            
-            {/* 🌙 Fixed bottom-left toggle button */}
-            <div className="fixed bottom-6 left-6 z-[9999] ">
-                <NightToggle isNight={isNight} onToggle={() => setIsNight(!isNight)} />
-            </div>
-            
-            {/* Background color */}
+            {/* Background Transition */}
             <AnimatePresence mode="wait">
                 <motion.div
-                    key={isNight ? 'night' : 'day'}
+                    key={`${pathname}-${isNight ? 'night' : 'day'}`}
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
-                    transition={{ duration: 1 }}
-                    className={`absolute inset-0 z-0 ${isNight ? 'bg-[#583101]' : 'bg-[#FFEDD8]'}`}
+                    transition={{ duration: 0.8, ease: 'easeInOut' }}
+                    className={`absolute inset-0 z-0 ${isNight ? 'bg-sand-900' : 'bg-sand-50'}`}
+                    aria-hidden="true"
                 />
             </AnimatePresence>
 
-            {/* Buttons */}
+            {/* Back to Top Button */}
             <div className="fixed bottom-6 right-6 z-50">
                 <BackToTopButton />
             </div>
 
             <AudioController isNight={isNight} />
 
+            {/* Main Content */}
             <main
-                className={`relative z-10 transition-colors duration-500 pt-20 ${isNight ? 'text-[#FFEDD8]' : 'text-[#583101]'
+                className={`relative z-10 min-h-screen transition-colors duration-500 pt-28 ${isNight ? 'text-sand-50' : 'text-sand-900'
                     }`}
             >
-                {children}
+                <AnimatePresence mode="wait" initial={false}>
+                    <motion.div
+                        key={pathname}
+                        initial={{ opacity: 0, y: 30 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -30 }}
+                        transition={{ duration: 0.5, ease: 'easeOut' }}
+                    >
+                        {children}
+                    </motion.div>
+                </AnimatePresence>
             </main>
         </>
     );
-}
+};
+
+export default memo(ClientLayout);

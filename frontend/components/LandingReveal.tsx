@@ -1,14 +1,13 @@
-// components/LandingReveal.tsx
 'use client';
 
-import { useEffect, useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useEffect, useState, memo } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
 
-export default function LandingReveal() {
-    const [isVisible, setIsVisible] = useState(true);
+const LandingReveal: React.FC = () => {
+    const [isVisible, setIsVisible] = useState<boolean>(true);
 
     useEffect(() => {
-        const timer = setTimeout(() => setIsVisible(false), 2500); // 2.5s delay
+        const timer = setTimeout(() => setIsVisible(false), 2500);
         return () => clearTimeout(timer);
     }, []);
 
@@ -21,6 +20,7 @@ export default function LandingReveal() {
                     animate={{ opacity: 0 }}
                     exit={{ opacity: 0 }}
                     transition={{ duration: 1.2, ease: 'easeInOut' }}
+                    aria-hidden="true"
                 >
                     <motion.h1
                         className="text-4xl md:text-6xl font-bold tracking-wide"
@@ -34,4 +34,6 @@ export default function LandingReveal() {
             )}
         </AnimatePresence>
     );
-}
+};
+
+export default memo(LandingReveal);
