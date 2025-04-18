@@ -12,28 +12,11 @@ export default function AudioController({ isNight }: AudioControllerProps) {
     const audioRef = useRef<HTMLAudioElement>(null);
     const isPlayingRef = useRef(true);
     const [autoplayBlocked, setAutoplayBlocked] = useState(false);
+    const [wasManuallyStarted, setWasManuallyStarted] = useState(false);
 
     const audioSrc = isNight ? '/sakura-night.mp3' : '/sakura-music.mp3';
 
-    // 🔊 Smooth volume fade
-    const fadeVolume = (target: number, duration: number) => {
-        const audio = audioRef.current;
-        if (!audio) return;
-
-        const start = audio.volume;
-        const steps = 20;
-        const stepTime = duration / steps;
-        let step = 0;
-
-        const fade = setInterval(() => {
-            step++;
-            const newVol = start + (target - start) * (step / steps);
-            audio.volume = Math.max(0, Math.min(1, newVol));
-            if (step >= steps) clearInterval(fade);
-        }, stepTime);
-    };
-
-    // ✅ Play handler (used on load + retry)
+    // 🔁 Autoplay + retry if blocked
     const tryPlay = async () => {
         const audio = audioRef.current;
         if (!audio) return;
@@ -44,11 +27,11 @@ export default function AudioController({ isNight }: AudioControllerProps) {
             setAutoplayBlocked(false);
         } catch (err) {
             console.warn('Autoplay blocked:', err);
-            setAutoplayBlocked(true); // Show retry button
+            setAutoplayBlocked(true);
         }
     };
 
-    // 🔁 Autoplay + handle source change
+    // 🚫 Try to play on source change
     useEffect(() => {
         const audio = audioRef.current;
         if (!audio) return;
@@ -59,21 +42,27 @@ export default function AudioController({ isNight }: AudioControllerProps) {
         tryPlay();
     }, [audioSrc]);
 
-    // 🕶️ Volume fade on tab visibility
+    // ✅ Listen for first user interaction (anywhere on page)
     useEffect(() => {
-        const handleVisibility = () => {
-            if (document.visibilityState === 'hidden') {
-                fadeVolume(0, 400);
-            } else {
-                fadeVolume(1, 800);
+        const handleFirstInteraction = () => {
+            if (!wasManuallyStarted) {
+                tryPlay();
+                setWasManuallyStarted(true);
             }
         };
 
-        document.addEventListener('visibilitychange', handleVisibility);
-        return () => document.removeEventListener('visibilitychange', handleVisibility);
-    }, []);
+        window.addEventListener('click', handleFirstInteraction, { once: true });
+        window.addEventListener('keydown', handleFirstInteraction, { once: true });
+        window.addEventListener('touchstart', handleFirstInteraction, { once: true });
 
-    // 🎧 Beat detection using Web Audio API
+        return () => {
+            window.removeEventListener('click', handleFirstInteraction);
+            window.removeEventListener('keydown', handleFirstInteraction);
+            window.removeEventListener('touchstart', handleFirstInteraction);
+        };
+    }, [wasManuallyStarted]);
+
+    // 🎧 Beat detection
     useEffect(() => {
         const audio = audioRef.current;
         if (!audio) return;
@@ -98,6 +87,37 @@ export default function AudioController({ isNight }: AudioControllerProps) {
         };
 
         update();
+    }, []);
+
+    // 🎛 Volume fade on tab change
+    useEffect(() => {
+        const fadeVolume = (target: number, duration: number) => {
+            const audio = audioRef.current;
+            if (!audio) return;
+
+            const start = audio.volume;
+            const steps = 20;
+            const stepTime = duration / steps;
+            let step = 0;
+
+            const fade = setInterval(() => {
+                step++;
+                const newVol = start + (target - start) * (step / steps);
+                audio.volume = Math.max(0, Math.min(1, newVol));
+                if (step >= steps) clearInterval(fade);
+            }, stepTime);
+        };
+
+        const handleVisibility = () => {
+            if (document.visibilityState === 'hidden') {
+                fadeVolume(0, 400);
+            } else {
+                fadeVolume(1, 800);
+            }
+        };
+
+        document.addEventListener('visibilitychange', handleVisibility);
+        return () => document.removeEventListener('visibilitychange', handleVisibility);
     }, []);
 
     return (
