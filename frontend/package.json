@@ -10,9 +10,11 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@fontsource/noto-serif-jp": "^5.2.5",
     "@tailwindcss/vite": "^4.1.3",
     "framer-motion": "^12.6.5",
     "frontend": "file:",
+    "lucide-react": "^0.488.0",
     "next": "15.3.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"

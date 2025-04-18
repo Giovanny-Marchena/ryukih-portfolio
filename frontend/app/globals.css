@@ -1,3 +1,12 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* frontend/app/globals.css */
+@import "@fontsource/noto-serif-jp/400.css";
+@import "@fontsource/noto-serif-jp/700.css";
+
+/* Apply globally */
+body {
+    font-family: "Noto Serif JP", serif;
+}
