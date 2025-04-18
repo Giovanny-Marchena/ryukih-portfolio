@@ -52,24 +52,6 @@ export default function Home() {
         Yume o egaku — Drawing dreams
       </motion.p>
 
-      <motion.h2
-        className="text-2xl md:text-3xl font-semibold z-10"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.6, duration: 1 }}
-      >
-        侍 × Code — Crafting digital precision
-      </motion.h2>
-
-      <motion.p
-        className="text-md md:text-lg text-gray-300 mt-2 max-w-lg z-10"
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.8, duration: 1 }}
-      >
-        A portfolio bridging tradition and technology.
-      </motion.p>
-
       <motion.a
         href="#projects"
         className="mt-6 px-5 py-2 border border-gray-300 rounded-full text-sm hover:bg-white/10 transition z-10"

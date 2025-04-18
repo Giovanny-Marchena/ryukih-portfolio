@@ -58,7 +58,18 @@ export default function AudioController({ nightMode = false }: AudioControllerPr
         if (!audioRef.current) return;
         audioRef.current.pause();
         audioRef.current.load();
-        audioRef.current.play().then(() => setIsPlaying(true)).catch(() => setIsPlaying(false));
+
+        const tryPlay = async () => {
+            try {
+                await audioRef.current?.play();
+                setIsPlaying(true);
+            } catch (err) {
+                console.warn('Autoplay failed:', err);
+                setIsPlaying(false);
+            }
+        };
+
+        tryPlay();
     }, [audioSrc]);
 
     const togglePlay = () => {
@@ -67,7 +78,7 @@ export default function AudioController({ nightMode = false }: AudioControllerPr
             audioRef.current.pause();
             setIsPlaying(false);
         } else {
-            audioRef.current.play();
+            audioRef.current.play().catch((err) => console.warn('Play failed:', err));
             setIsPlaying(true);
         }
     };
