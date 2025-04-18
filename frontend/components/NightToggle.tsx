@@ -1,6 +1,8 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { motion } from 'framer-motion';
+import { FaMoon, FaSun } from 'react-icons/fa';
 
 type NightToggleProps = {
     isNight: boolean;
@@ -14,31 +16,18 @@ export default function NightToggle({ isNight, onToggle }: NightToggleProps) {
     if (!mounted) return null;
 
     return (
-        <div className="fixed bottom-6 left-6 z-50">
-            <label className="relative h-[100px] w-[100px] block cursor-pointer">
-                <input
-                    type="checkbox"
-                    checked={isNight}
-                    onChange={onToggle}
-                    className="absolute opacity-0 w-full h-full z-10 cursor-pointer"
-                />
-                {/* Glow background */}
-                <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[72px] w-[72px] rounded-full bg-white opacity-20 pointer-events-none" />
-                {/* Button */}
-                <span
-                    className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 
-            h-[68.8px] w-[68.8px] rounded-full 
-            ${isNight ? 'bg-zinc-800' : 'bg-gray-100'} 
-            shadow-lg transition-all duration-300`}
-                />
-                {/* Icon */}
-                <span
-                    className={`absolute inset-0 flex items-center justify-center text-2xl font-bold 
-            ${isNight ? 'text-white' : 'text-black'} transition-colors`}
-                >
-                    {isNight ? '🌙' : '☼'}
-                </span>
-            </label>
-        </div>
+        <motion.button
+            whileTap={{ scale: 0.9 }}
+            whileHover={{ scale: 1.05 }}
+            onClick={onToggle}
+            aria-label="Toggle Night Mode"
+            className={`rounded-full p-3 border border-white/20 bg-white/10 hover:bg-white/20 text-white shadow-lg transition-all backdrop-blur-md`}
+        >
+            {isNight ? (
+                <FaSun className="text-yellow-300 w-5 h-5" />
+            ) : (
+                <FaMoon className="text-blue-300 w-5 h-5" />
+            )}
+        </motion.button>
     );
 }

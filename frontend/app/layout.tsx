@@ -2,6 +2,8 @@
 import './globals.css';
 import type { Metadata } from 'next';
 import ClientLayout from '@/components/ClientLayout';
+// import ClientLayout from '../components/ClientLayout';
+
 
 export const metadata: Metadata = {
   title: 'Ryukih Portfolio',
@@ -13,9 +15,10 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body>
+      <body className="overflow-x-hidden antialiased">
         <ClientLayout>{children}</ClientLayout>
       </body>
     </html>
   );
 }
+

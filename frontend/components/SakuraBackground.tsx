@@ -152,7 +152,7 @@ export default function SakuraBackground({ isNight }: Props) {
                             p.floatTimer = Math.random() * 100 + 50;
                         }
 
-                        const beatScale = 1 + currentBeat * 0.2;
+                        const beatScale = 1 + currentBeat * 0.1;
 
                         ctx.save();
                         ctx.globalAlpha = p.opacity;
