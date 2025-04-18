@@ -30,11 +30,16 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
             <SakuraBackground isNight={isNight} />
             <Navbar isNight={isNight} onToggle={() => setIsNight(!isNight)} />
 
-            {/* 🌙 Mobile Toggle (only visible on small screens) */}
-            <div className="fixed top-4 right-4 z-[9999] md:hidden">
+            {/* Fixed button container (mobile) */}
+            {/* <div className="fixed top-4 right-4 z-[9999] md:hidden flex flex-col items-end gap-2">
+                <NightToggle isNight={isNight} onToggle={() => setIsNight(!isNight)} />
+            </div> */}
+            
+            {/* 🌙 Fixed bottom-left toggle button */}
+            <div className="fixed bottom-6 left-6 z-[9999] ">
                 <NightToggle isNight={isNight} onToggle={() => setIsNight(!isNight)} />
             </div>
-
+            
             {/* Background color */}
             <AnimatePresence mode="wait">
                 <motion.div

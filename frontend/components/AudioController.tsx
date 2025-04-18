@@ -127,11 +127,12 @@ export default function AudioController({ isNight }: AudioControllerProps) {
             {autoplayBlocked && (
                 <button
                     onClick={tryPlay}
-                    className="fixed bottom-6 right-6 z-50 px-4 py-2 bg-black/70 text-white rounded-full backdrop-blur-md hover:bg-black transition"
+                    className="fixed bottom-4 right-4 z-[9999] px-4 py-2 bg-black/70 text-white rounded-full backdrop-blur-md hover:bg-black transition"
                 >
                     🔊 Start Audio
                 </button>
             )}
+
         </>
     );
 }
