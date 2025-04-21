@@ -11,9 +11,8 @@ export let currentBeat = 0;
 
 export default function AudioController({ isNight }: AudioControllerProps) {
     const audioRef = useRef<HTMLAudioElement>(null);
-    const isPlayingRef = useRef(true);
-    const hasStartedManuallyRef = useRef(false);
-    const [isPlaying, setIsPlaying] = useState(true);
+    const isPlayingRef = useRef(false);
+    const [isPlaying, setIsPlaying] = useState(false);
     const [isMuted, setIsMuted] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const audioContextRef = useRef<AudioContext | null>(null);
@@ -22,7 +21,6 @@ export default function AudioController({ isNight }: AudioControllerProps) {
 
     const audioSrc = isNight ? '/sakura-night.mp3' : '/sakura-music.mp3';
 
-    // Smooth volume fade
     const fadeVolume = (target: number, duration: number) => {
         const audio = audioRef.current;
         if (!audio) return;
@@ -40,30 +38,35 @@ export default function AudioController({ isNight }: AudioControllerProps) {
         }, stepTime);
     };
 
-    // Play audio with fade-in
     const playAudio = async () => {
         const audio = audioRef.current;
         if (!audio) return;
 
         try {
-            audio.volume = 0; // Start at 0 for fade-in
+            audio.volume = 1;
+            audio.muted = false;
+
             await audio.play();
+
+            // ✅ Resume audio context if suspended
+            if (audioContextRef.current?.state === 'suspended') {
+                await audioContextRef.current.resume();
+            }
+
             isPlayingRef.current = true;
             setIsPlaying(true);
             setError(null);
-            fadeVolume(1, 400); // Fade in over 400ms
         } catch (err) {
             console.warn('Audio playback failed:', err);
             setError('Failed to play audio. Please try again.');
         }
     };
 
-    // Pause audio with fade-out
     const pauseAudio = () => {
         const audio = audioRef.current;
         if (!audio) return;
 
-        fadeVolume(0, 400); // Fade out over 400ms
+        fadeVolume(0, 400);
         setTimeout(() => {
             audio.pause();
             isPlayingRef.current = false;
@@ -71,7 +74,6 @@ export default function AudioController({ isNight }: AudioControllerProps) {
         }, 400);
     };
 
-    // Toggle play/pause
     const togglePlayPause = () => {
         if (isPlaying) {
             pauseAudio();
@@ -80,7 +82,6 @@ export default function AudioController({ isNight }: AudioControllerProps) {
         }
     };
 
-    // Toggle mute
     const toggleMute = () => {
         const audio = audioRef.current;
         if (!audio) return;
@@ -89,56 +90,26 @@ export default function AudioController({ isNight }: AudioControllerProps) {
         setIsMuted(!isMuted);
     };
 
-    // Load and attempt to play on source change
     useEffect(() => {
         const audio = audioRef.current;
         if (!audio) return;
 
         audio.pause();
         audio.load();
-
-        if (isPlaying) {
-            playAudio();
-        }
-
-        // Reset mute state on source change
         audio.muted = false;
         setIsMuted(false);
-    }, [audioSrc, isPlaying]);
+    }, [audioSrc]);
 
-    // Handle first user interaction for autoplay
-    useEffect(() => {
-        const handleFirstInteraction = () => {
-            if (!hasStartedManuallyRef.current) {
-                playAudio();
-                hasStartedManuallyRef.current = true;
-            }
-        };
-
-        window.addEventListener('click', handleFirstInteraction, { once: true });
-        window.addEventListener('keydown', handleFirstInteraction, { once: true });
-        window.addEventListener('touchstart', handleFirstInteraction, { once: true });
-
-        return () => {
-            window.removeEventListener('click', handleFirstInteraction);
-            window.removeEventListener('keydown', handleFirstInteraction);
-            window.removeEventListener('touchstart', handleFirstInteraction);
-        };
-    }, [playAudio]);
-
-    // Beat detection
-    // Beat detection
     useEffect(() => {
         const audio = audioRef.current;
         if (!audio) return;
 
         const AudioContextClass = window.AudioContext ?? (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
-
         const audioCtx = new AudioContextClass();
         audioContextRef.current = audioCtx;
         const analyser = audioCtx.createAnalyser();
 
-        if (sourceRef.current) return; // ✅ Prevent double connect
+        if (sourceRef.current) return;
         const source = audioCtx.createMediaElementSource(audio);
         sourceRef.current = source;
 
@@ -157,9 +128,7 @@ export default function AudioController({ isNight }: AudioControllerProps) {
         update();
 
         return () => {
-            if (animationFrameRef.current) {
-                cancelAnimationFrame(animationFrameRef.current);
-            }
+            if (animationFrameRef.current) cancelAnimationFrame(animationFrameRef.current);
             if (sourceRef.current) {
                 sourceRef.current.disconnect();
                 sourceRef.current = null;
@@ -171,8 +140,6 @@ export default function AudioController({ isNight }: AudioControllerProps) {
         };
     }, []);
 
-
-    // Volume fade on tab change
     useEffect(() => {
         const fadeVolumeTab = (target: number, duration: number) => {
             const audio = audioRef.current;
@@ -205,8 +172,8 @@ export default function AudioController({ isNight }: AudioControllerProps) {
 
     return (
         <>
-            <audio ref={audioRef} src={audioSrc} autoPlay loop className="hidden" />
-            <div className="fixed bottom-4 right-4 z-[9999] flex gap-2">
+            <audio ref={audioRef} src={audioSrc} loop className="hidden" />
+            <div className="fixed bottom-4 left-4 z-[9999] flex gap-2">
                 {error && (
                     <span className="px-4 py-2 bg-black/70 text-sand-400 rounded-full backdrop-blur-md">
                         {error}
@@ -220,14 +187,16 @@ export default function AudioController({ isNight }: AudioControllerProps) {
                 >
                     {isPlaying ? '❚❚' : '▶'}
                 </button>
-                <button
-                    onClick={toggleMute}
-                    className="px-4 py-2 bg-black/70 text-white rounded-full backdrop-blur-md hover:bg-black transition focus-visible:ring-2 focus-visible:ring-sand-400"
-                    aria-label={isMuted ? 'Unmute audio' : 'Mute audio'}
-                    aria-pressed={isMuted}
-                >
-                    {isMuted ? <FaVolumeMute /> : <FaVolumeUp />}
-                </button>
+                {isPlaying && (
+                    <button
+                        onClick={toggleMute}
+                        className="px-4 py-2 bg-black/70 text-white rounded-full backdrop-blur-md hover:bg-black transition focus-visible:ring-2 focus-visible:ring-sand-400"
+                        aria-label={isMuted ? 'Unmute audio' : 'Mute audio'}
+                        aria-pressed={isMuted}
+                    >
+                        {isMuted ? <FaVolumeMute /> : <FaVolumeUp />}
+                    </button>
+                )}
             </div>
         </>
     );
