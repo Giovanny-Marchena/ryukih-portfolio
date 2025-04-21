@@ -177,6 +177,6 @@ Debugging Notes:
 - If hamburger appears on desktop (≥768px), inspect `.hamburger-wrapper` in DevTools for `display` (should be `none`). Check `tailwind.config.ts` for `md` breakpoint (default: 768px).
 - Verify no CSS overrides in `app/globals.css` (e.g., `.hamburger-wrapper { display: block !important; }`).
 - Test on mobile (<768px) to confirm hamburger is visible, desktop (≥768px) to confirm it’s hidden.
-- If issue persists, share `tailwind.config.ts` or a screenshot of the nav on desktop!!!.
+- If issue persists, share `tailwind.config.ts` or a screenshot of the nav on desktop!!!!.
 */
 export default memo(Navbar);
