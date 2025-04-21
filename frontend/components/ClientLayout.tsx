@@ -1,3 +1,4 @@
+// components/ClientLayout.tsx
 'use client';
 
 import { useEffect, useState, memo } from 'react';
@@ -56,10 +57,9 @@ const ClientLayout: React.FC<ClientLayoutProps> = ({ children }) => {
 
             <AudioController isNight={isNight} />
 
-            {/* Main Content */}
+            {/* Main Content with Page-Wide Padding */}
             <main
-                className={`relative z-10 min-h-screen transition-colors duration-500 pt-28 ${isNight ? 'text-sand-50' : 'text-sand-900'
-                    }`}
+                className={`relative z-10 min-h-screen transition-colors duration-500 pt-28 px-6 sm:px-8 md:px-12 lg:px-16 xl:px-20 ${isNight ? 'text-sand-50' : 'text-sand-900'}`}
             >
                 <AnimatePresence mode="wait" initial={false}>
                     <motion.div

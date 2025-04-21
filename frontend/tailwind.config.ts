@@ -8,6 +8,14 @@ const config: Config = {
     ],
     theme: {
         extend: {
+            spacing: {
+                'card-sm-w': '508.75px',
+                'card-sm-h': '426.27px',
+                'card-md-w': '728.25px',
+                'card-md-h': '572.58px',
+                'card-lg-w': '1277px',
+                'card-lg-h': '938.38px',
+            },
             colors: {
                 sand: {
                     50: '#FFEDD8',
